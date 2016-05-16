@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include head1.html %}
+<body>
+<div id="container" class="container">
+  <!-- Left Menu / Logo-->
+  {% include left.html %}
+  <!-- Go to top link for mobile device -->
+  <a href="#menu" class="totop-link">Go to the top</a>
+  <div class="content-scroller">
+    <div class="content-wrapper">
+      {{ content }}
+
+    </div>
+    <!-- content-wrapper -->
+  </div>
+  <!-- content-scroller -->
+
+</div>
+{% include footer1.html %}
+</body>
+</html>

@@ -1,0 +1,45 @@
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/head.min.js"></script>
+<!-- Portfolio Thumbnail -->
+<script type="text/javascript" src="/js/imagesloaded.min.js"></script>
+<script type="text/javascript" src="/js/masonry.min.js"></script>
+<script type="text/javascript" src="/js/class_helper.js"></script>
+<script type="text/javascript" src="/js/grid_gallery.js"></script>
+<!-- Portfolio Grid -->
+<script>
+    new CBPGridGallery( document.getElementById( 'grid-gallery' ) );
+</script>
+<!-- Portfolio Slider-->
+<script type="text/javascript"  src="/js/carousel.js"></script>
+<script type="text/javascript" src="/js/jquery.easypiechart.js"></script>
+<script type="text/javascript" src="/js/text.rotator.js"></script>
+<!-- Page Scrolling -->
+<script>
+head.js(
+		{ mousewheel : "/js/jquery.mousewheel.js" },
+		{ mwheelIntent : "/js/mwheelIntent.js" },
+		{ jScrollPane : "/js/jquery.jscrollpane.min.js" },
+		{ history : "/js/jquery.history.js" },
+		{ stringLib : "/js/core.string.js" },
+		{ easing : "/js/jquery.easing.1.3.js" },
+		{ smartresize : "/js/jquery.smartresize.js" },
+		{ page : "/js/jquery.page.js" }
+		);
+</script>
+<!-- Fit Video -->
+<script type="text/javascript"  src="/js/jquery.fitvids.js"></script>
+<!-- All Javascript Component-->
+<script src="/js/settings.js"></script>
+<script>
+  $(document).ready(function(){
+
+      $('#link_blog').removeClass('active');
+      $("#link_about").parent().attr("href","#chapterabout")
+      $("#link_skills").parent().attr("href","#chapterskills")
+      $("#link_experience").parent().attr("href","#chapterexperience")
+      $("#link_education").parent().attr("href","#chaptereducation")
+      $("#link_portfolio").parent().attr("href","#chapterportfolio")
+      $("#link_contact").parent().attr("href","#chaptercontact")
+      
+  });
+</script>

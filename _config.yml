@@ -1,0 +1,15 @@
+# Site settings
+title: Sathish Jayaraman - Full Stack Developer | Software Engineer
+email: sathishj.official@gmail.com
+description: > # Hello, I am Sathish Jayaraman. This is my portfolio & blogging website. Also I shout here
+  pretty much about anything I feel interesting.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://sathish.me" # the base hostname & protocol for your site
+twitter_username: scriperdj
+github_username:  scriperdj
+gems: [jekyll-paginate]
+paginate: 6
+paginate_path: "/blog/page:num/"
+
+# Build settings
+markdown: kramdown

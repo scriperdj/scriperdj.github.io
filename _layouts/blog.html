@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include head.html %}
+  <body class="blog">
+    <div id="container" class="container">
+      <!-- Left Menu / Logo-->
+      {% include left.html %}
+      <div class="blog-main">
+        <div class="blog-left blog-listing">
+          {{ content }}
+
+        </div>
+        <!-- {% include right.html %} -->
+      </div>
+    </div>
+    {% include footer.html %}
+  </body>
+</html>
