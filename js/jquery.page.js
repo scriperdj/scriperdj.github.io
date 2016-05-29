@@ -59,14 +59,13 @@
 					if( chapter === undefined ){
 						chapter = "about"
 					}
-				
+
 
 					$('#link_introduction').removeClass('active');
 					$('#link_about').removeClass('active');
 					$('#link_skills').removeClass('active');
 					$('#link_experience').removeClass('active');
 					$('#link_education').removeClass('active');
-					$('#link_portfolio').removeClass('active');
 					$('#link_contact').removeClass('active');
 
 					$('#link_'+chapter).addClass('active');
@@ -110,7 +109,6 @@
 					$('#link_skills').removeClass('active');
 					$('#link_experience').removeClass('active');
 					$('#link_education').removeClass('active');
-					$('#link_portfolio').removeClass('active');
 					$('#link_contact').removeClass('active');
 
 					$('#link_'+chapter).addClass('active');
