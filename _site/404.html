@@ -1,53 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
-<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
-<title>Andrew Smith - shared on themelock.com</title>
-<link rel="shortcut icon" href="favicon.ico">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+  <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+  <title>Sathish Jayaraman - Full Stack Developer | Software Engineer</title>
+  <link rel="shortcut icon" href="favicon.ico">
+  <meta name="description" content="Hello, I am Sathish Jayaraman. This is my portfolio & blogging website. Also I shout here pretty much about anything I feel interesting.">
+  <!-- Google Font-->
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,300,100italic,100,400italic,500,500italic,700,900,900italic,700italic%7COswald:400,300,700' rel='stylesheet' type='text/css'>
+  <!-- Design Style -->
+  <link rel="stylesheet" type="text/css" href="/css/scroll.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <!-- Icon -->
+  <link rel="stylesheet" type="text/css" href="/css/font-awesome.css" />
+  <link rel="stylesheet" type="text/css" href="/fonts2/font-mfizz.css" />
+  <!-- Portfolio Thumbnail / Slider -->
+  <link rel="stylesheet" type="text/css" href="/css/portfolio.css" />
+  <link rel="stylesheet" type="text/css" href="/css/carousel.css">
+  <!-- Responsive -->
+  <link rel="stylesheet" type="text/css" href="/css/responsive.css" />
+  <!-- Pie Chart / Skills -->
+  <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+  <!-- Progressbar / Skills-->
+  <script type="text/javascript" src="/js/progressbar.js"></script>
+  <!-- Portfolio-->
+  <script src="/js/modernizr.custom.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-<!-- Google Font-->
-<link href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,300,100italic,100,400italic,500,500italic,700,900,900italic,700italic%7COswald:400,300,700' rel='stylesheet' type='text/css'>
-<!-- Design Style -->
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<link rel="stylesheet" type="text/css" href="css/carousel.css">
-<!-- Icon -->
-<link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
-<!-- Responsive -->
-<link rel="stylesheet" type="text/css" href="css/responsive.css" />
+    ga('create', 'UA-79509088-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
 </head>
+
 <body class="blog">
 <div id="container" class="container">
   <!-- Left Menu / Logo-->
   <aside class="menu" id="menu">
-    <div class="logo">
-      <!-- Logo image-->
-      <img src="images/logo.png" width="140" height="140" alt=""/>
-      <!-- Logo name-->
-      <span>Andrew Smith</span></div>
-    <!-- Mobile Navigation-->
-    <a href="#menu1" class="menu-link"></a>
-    <!-- Left Navigation-->
-    <nav id="menu1" role="navigation"> <a href="index.html?page=introduction"><span id="link_introduction">Home</span></a> <a href="index.html?page=about"><span id="link_about">About</span></a> <a href="index.html?page=skills"><span id="link_skills">Skills</span></a> <a href="index.html?page=experience"><span id="link_experience">Experience</span></a> <a href="index.html?page=education"><span id="link_education">Education</span></a><a href="blog.html"><span id="link_blog">Blog</span></a><a href="index.html?page=contact"><span id="link_contact">Contact</span></a></nav>
-    <div class="social"> <a href="#" class="facebook"><i class="fa fa-facebook"></i></a> <a href="#" class="twitter"><i class="fa fa-twitter"></i></a> <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a> </div>
-    <div class="copyright"> &copy; Andrew Smith.<br>
-      All Rights Reserved. </div>
-  </aside>
+  <div class="logo">
+    <!-- Logo image-->
+    <img src="/images/logo.png" width="140" height="140" alt=""/>
+    <!-- Logo name-->
+    <span>Sathish Jayaraman</span>
+  </div>
+  <!-- Mobile Navigation-->
+  <a href="#menu1" class="menu-link"></a>
+  <!-- Left Navigation-->
+  <nav id="menu1" role="navigation">
+    <a href="/index.html?page=about">
+      <span class="active" id="link_about">About</span>
+    </a>
+    <a href="/index.html?page=skills">
+      <span id="link_skills">Skills</span>
+    </a>
+    <a href="/index.html?page=experience">
+      <span id="link_experience">Experience</span>
+    </a>
+    <a href="/index.html?page=education">
+      <span id="link_education">Education</span>
+    </a>
+    <a href="/index.html?page=contact">
+      <span id="link_contact">Contact</span>
+    </a>
+    <a href="/blog">
+      <span id="link_blog">Blog</span>
+    </a>
+  </nav>
+  <div class="copyright">
+     &copy; Sathish Jayaraman.<br>
+     All Rights Reserved.<br><br>
+     <!-- <center>Powered by <img src="/images/jekyll.png" width="80" alt=""/></center> -->
+  </div>
+
+</aside>
+
   <div class="no-page">
-    <div><img src="images/404.png"></div>
+    <div><img src="/images/404.png"></div>
     <div class="no-page-text"><h2>Sorry!</h2>
 <p>The page you were looking for
 could not be found.</p>
+
 <a class="button" href="index.html">Back to homepage</a>
 </div>
   </div>
-<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="js/head.min.js"></script>
+<script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="/js/head.min.js"></script>
 <!-- Portfolio Slider-->
-<script type="text/javascript"  src="js/carousel.js"></script>
-<script type="text/javascript" src="js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="js/settings-blog.js"></script>
+<script type="text/javascript"  src="/js/carousel.js"></script>
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/settings-blog.js"></script>
 </body>
 </html>

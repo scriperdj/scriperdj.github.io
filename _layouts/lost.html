@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include head1.html %}
+<body class="blog">
+<div id="container" class="container">
+  <!-- Left Menu / Logo-->
+  {% include left.html %}
+  <div class="no-page">
+    <div><img src="/images/404.png"></div>
+    <div class="no-page-text"><h2>Sorry!</h2>
+{{ content }}
+<a class="button" href="index.html">Back to homepage</a>
+</div>
+  </div>
+<script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="/js/head.min.js"></script>
+<!-- Portfolio Slider-->
+<script type="text/javascript"  src="/js/carousel.js"></script>
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/settings-blog.js"></script>
+</body>
+</html>
