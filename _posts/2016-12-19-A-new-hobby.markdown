@@ -5,22 +5,17 @@ date:   2016-12-19
 category: Personal
 comments: true
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+   Its that time of the year when I feel guilty for not achieving
+any of the targets set this year and start listing down targets for next year with the same energy.
+This website was one on my list for this year. Am just glad that I could scratch it out.
 
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+##### About this site
 
-Jekyll also offers powerful support for code snippets:
+The idea of a personal site didn't strike to me until I came to know about [Jekyll][jekyll-link].
+Its a simple static site generator and it doesn't require a hosting server. You just need to
+shell out few bucks for domain name if atall you require and [github][git-pages] takes care of hosting. Ofcourse there are many services out there like wordpress, tumblr, etc which don't require you to set up hosting but whats fun in them for a developer. Jekyll is just great, you should try it if you are on the outlook for bulding a simple website without spending much.
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
 
-[jekyll-docs]: http://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+[jekyll-link]: https://jekyllrb.com/
+[git-pages]: https://pages.github.com/
