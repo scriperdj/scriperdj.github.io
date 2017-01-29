@@ -69,12 +69,12 @@ a:hover {
 }
 * {
     outline: 0!important;
-    -webkit-touch-callout: none;
+    /*-webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
+    user-select: none;*/
     transition-timing-function: ease-out;
     -moz-transition-timing-function: ease-out;
     -webkit-transition-timing-function: ease-out;
@@ -82,12 +82,12 @@ a:hover {
 }
 figure, .slideshow li, .grid-gallery {
     outline: 0!important;
-    -webkit-touch-callout: none;
+    /*-webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
+    user-select: none;*/
     transition-timing-function: none;
     -moz-transition-timing-function: none;
     -webkit-transition-timing-function: none;

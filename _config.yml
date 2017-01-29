@@ -6,9 +6,10 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://sathish.me" # the base hostname & protocol for your site
 twitter_username: scriperdj
 github_username:  scriperdj
-gems: [jekyll-paginate]
+gems: [jekyll-paginate, pygments.rb]
 paginate: 6
 paginate_path: "/blog/page:num/"
 
 # Build settings
 markdown: kramdown
+highlighter: pygments
