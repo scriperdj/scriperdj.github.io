@@ -6,7 +6,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://sathish.me" # the base hostname & protocol for your site
 twitter_username: scriperdj
 github_username:  scriperdj
-gems: [jekyll-paginate, pygments.rb]
+gems: [jekyll-paginate, pygments.rb, jekyll-crosspost-to-medium]
 paginate: 6
 paginate_path: "/blog/page:num/"
 

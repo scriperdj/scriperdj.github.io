@@ -5,6 +5,7 @@ date:   2017-01-29
 categories: [Javascript, Nodejs]
 tags: [react,gulp,google-chrome]
 comments: true
+crosspost_to_medium: true
 ---
    Building extension for Google Chrome is no different from building javascript application. The official documentation page provides a [simple example][chrome-example]{:target="_blank"} which is nothing but a popup which searches image from Google for the active tab.
 

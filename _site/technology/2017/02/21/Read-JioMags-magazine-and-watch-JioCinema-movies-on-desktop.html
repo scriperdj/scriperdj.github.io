@@ -5,9 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
   <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
-  <title>Building Chrome extension using React.js, Redux and Gulp automation</title>
+  <title>Read JioMags magazines and watch JioCinema movies on desktop</title>
   <link rel="shortcut icon" href="favicon.ico">
-  <meta name="description" content="Building extension for Google Chrome is no different from building javascript application. The official documentation page provides a simple example which is...">
+  <meta name="description" content="Benefits of Jio does not stop with free data &amp; voice calls. Its the Apps likes JioTV, JioMags and JioCinema that makes   it awesome and full fledged ente...">
   <!-- Google Font-->
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,300,100italic,100,400italic,500,500italic,700,900,900italic,700italic%7COswald:400,300,700' rel='stylesheet' type='text/css'>
   <!-- Design Style -->
@@ -76,76 +76,40 @@
       <div class="blog-main">
         <div class="blog-left">
           <div class="blog-title blog-details-title">
-            <h2>Building Chrome extension using React.js, Redux and Gulp automation</h2>
-            <div class="breadcrumbs"><a href="/index.html?page=about">Home</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/blog">Blog</a>&nbsp;&nbsp;/&nbsp;&nbsp;Building Chrome extension using React.js, Redux and Gulp automation</div>
-            <span class="post-details ">Sunday &nbsp;/&nbsp; 29 January 2017 &nbsp;/&nbsp; <a href="#"></a></span>
+            <h2>Read JioMags magazines and watch JioCinema movies on desktop</h2>
+            <div class="breadcrumbs"><a href="/index.html?page=about">Home</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/blog">Blog</a>&nbsp;&nbsp;/&nbsp;&nbsp;Read JioMags magazines and watch JioCinema movies on desktop</div>
+            <span class="post-details ">Tuesday &nbsp;/&nbsp; 21 February 2017 &nbsp;/&nbsp; <a href="#">Technology</a></span>
           </div>
-          <p>Building extension for Google Chrome is no different from building javascript application. The official documentation page provides a <a href="https://developer.chrome.com/extensions/getstarted" target="_blank">simple example</a> which is nothing but a popup which searches image from Google for the active tab.</p>
+          <p>Benefits of Jio does not stop with free data &amp; voice calls. Its the Apps likes JioTV, JioMags and JioCinema that makes
+   it awesome and full fledged entertainer. But we don’t always prefer mobile to read magazines &amp; watch movies. Wouldn’t it be great if we could install JioMags &amp; JioCinema on desktop/pc? Well, in this post I shall show you how.</p>
 
-<p>The example is so old that the Google search api used in the sample is no more available. Modern javascript ecosystem is so huge and has many tools which helps in building solid javascript applications. In this post, I intend to show how make use of <a href="https://github.com/facebook/react" target="_blank">React</a> with <a href="http://redux.js.org/docs/introduction/" target="_blank">Redux</a> to build Chrome extension.</p>
-
-<p>In real world, we often face complex usecases where simple javascript is not enough. And codes can easily grow over time as and when the requirements changes. If not structured, its difficult to maintain the application. Frameworks like React, Redux are simple to learn yet powerful to build large applications with complex logics.</p>
+<p><img src="/images/posts/mags.png" alt="Read JioMags" height="500px" width="700px" /></p>
 
 <h5 id="prerequisite">Prerequisite</h5>
 
-<p>Am not gonna cover basics of React, Redux &amp; Chrome extension API as there are number of good resources available over the Internet already and below are my choices to learn them.</p>
-
-<ul>
-  <li><a href="https://developer.chrome.com/extensions" target="_blank">Chrome extension basics</a></li>
-  <li><a href="https://spapas.github.io/2016/03/02/react-redux-tutorial/" target="_blank">React-Redux tutorial</a></li>
-</ul>
-
-<h5 id="boilerplate">Boilerplate</h5>
-
-<p>There is a <a href="https://www.npmjs.com/package/react-chrome-extension-boilerplate" target="_blank">boilerplate</a> already present for this which uses <a href="https://webpack.github.io/">Webpack</a>. But I prefer <a href="http://gulpjs.com/" target="_blank">Gulp</a>, so have built separate <a href="https://www.npmjs.com/package/react-gulp-chrome-extension-boilerplate-browserify" target="_blank">boilerplate</a> using Gulp tasks involving <a href="http://browserify.org/" target="_blank">Browserify</a> &amp; <a href="https://github.com/css-modules/css-modulesify" target="_blank">Css-modulesify</a> making my first open-source contribution. This is a TodoMVC example where the states are saved in localStorage using Chrome storage API. The example has layouts for Popup, Inject-script &amp; Context-menu.</p>
-
-<p><img src="/images/posts/todo-react-chrome.png" alt="ToDo Chrome Extension Inject.js" height="36px" width="400px" /></p>
+<p>This process of installing Android apps requires Google chrome to be present on the desktop. This can be used to install any Android apps on desktop however not all apps might work (JioTV doesn’t work).</p>
 
 <h5 id="installation">Installation</h5>
 
 <ul>
-  <li>Clone the repo</li>
+  <li>Add the extension named <a href="https://chrome.google.com/webstore/detail/arc-welder/emfinbmielocnlhgmfkkmkngdoccbadn" target="_blank">ARC Welder</a> to Google chrome</li>
+  <li>Go to <a href="http://apk-dl.com/" target="_blank">APK downloader</a> and download JioMags app and JioCinema app by giving below urls in the search box.
+    <ul>
+      <li>JioMags - https://play.google.com/store/apps/details?id=com.jio.media.jiomags</li>
+      <li>JioCinema - https://play.google.com/store/apps/details?id=com.jio.media.ondemand</li>
+    </ul>
+  </li>
+  <li>Now go to Google chrome apps page chrome://apps/ and open ARC Welder.
+    <ul>
+      <li><img src="/images/posts/chome-home.png" alt="Chrome" height="100px" width="300px" /></li>
+    </ul>
+  </li>
+  <li>Click on “Add your APK” button and open the downloaded apps one by one and complete the installation. You can click the “Test” button the check the installed app after installation.</li>
+  <li>Once installed, the apps are available on the Chrome apps page and you can open them any time.</li>
+  <li>Now login to JioMags &amp; JioCinema using the User-id &amp; password and enjoy the content on large screen.</li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="nv">$ </span>git clone https://github.com/scriperdj/react-gulp-chrome-extension-boilerplate.git
-    </code></pre></figure>
-
-<ul>
-  <li>Install npm dependencies</li>
-</ul>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="nv">$ </span>npm install
-    </code></pre></figure>
-
-<ul>
-  <li>Build using gulp tasks</li>
-</ul>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="nv">$ </span>gulp
-    </code></pre></figure>
-
-<ul>
-  <li>Load the <code>./dev</code> folder to Google Chrome using <a href="https://developer.chrome.com/extensions/getstarted#unpacked">Load unpacked extensions option</a>.</li>
-</ul>
-
-<h5 id="walkthrough">Walkthrough</h5>
-
-<p>The react sources are present inside the ./app folder. The folder structure inside ./app should be familiar to you if you had already gone through React-Redux tutorial above. The Store uses Chrome storage API instead of redux-store.</p>
-
-<script src="http://gist-it.appspot.com/https://github.com/scriperdj/react-gulp-chrome-extension-boilerplate/blob/master/app/utils/storage.js?slice=0:3"></script>
-
-<p>The React render code for the Todo app is present in ./chrome/extension/todoapp.js. The states are made persistent by below code.</p>
-
-<script src="http://gist-it.appspot.com/https://github.com/scriperdj/react-gulp-chrome-extension-boilerplate/blob/master/chrome/extension/todoapp.js?slice=4:16"></script>
-
-<p>The background.js file includes the code for changing badge count each time a new todo is added, code for injecting the inject.js script into github.com’s source and the code for context menu.</p>
-
-<p>Have setup Gulp tasks to convert the .js sources to browser native javascript files using Browserify and build .css file extracting from the react sources using css-modulesify with default postcss plugins.</p>
-
-<script src="http://gist-it.appspot.com/https://github.com/scriperdj/react-gulp-chrome-extension-boilerplate/blob/master/gulpfile.js?slice=73:91"></script>
-
-<p>Am stopping here. Please let me know if you have any doubts or problems with the source/execution. I will try and help out.</p>
-
+<p><img src="/images/posts/cinema.png" alt="Read JioCinema" height="500px" width="700px" /></p>
 
           <div id="comments" class="comments-main">
             
@@ -177,7 +141,7 @@
                 js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=612519132273800";
                 fjs.parentNode.insertBefore(js, fjs);
               }(document, 'script', 'facebook-jssdk'));</script>
-              <div class="fb-comments" data-href="http://sathish.me/javascript/nodejs/2017/01/29/Build-Chrome-extension-using-react-and-redux.html" data-numposts="5"></div> -->
+              <div class="fb-comments" data-href="http://sathish.me/technology/2017/02/21/Read-JioMags-magazine-and-watch-JioCinema-movies-on-desktop.html" data-numposts="5"></div> -->
             
           </div>
         </div>
