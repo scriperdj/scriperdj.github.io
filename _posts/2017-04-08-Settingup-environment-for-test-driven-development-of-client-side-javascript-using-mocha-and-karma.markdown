@@ -5,6 +5,7 @@ date:   2017-04-08
 categories: [Javascript]
 tags: [javascript,testing,tdd,karma,mocha,gulp]
 comments: true
+crosspost_to_medium: true
 ---
    Developing Javascript application is a breeze. It has no strict type checks (loose typing), vast libraries to use from, no need of setting up development environment, can run anywhere, and more and more. But things could get messy pretty soon if you are constantly deveolping it adding logics day by day.   
 
