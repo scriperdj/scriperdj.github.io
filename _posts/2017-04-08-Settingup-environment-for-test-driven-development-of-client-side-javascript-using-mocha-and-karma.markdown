@@ -48,3 +48,5 @@ The cool part about Karma is that, you could start it and add any device to it a
 ![Read JioMags]({{ site.baseurl }}/images/posts/karma-testing.gif)
 
 Set *autoWatch: true* in ***karma.config.js*** file to allow test cases execution whenever the files change. Also, you could debug the code by adding a line ***debugger*** to four function & open Developer tools in your browser to start debugger. Exciting right? Go ahead & try for yourself.
+
+Have setup [boilerplate in Git repo](https://github.com/scriperdj/Javascript-automated-unit-testing-with-browsers){:target="_blank"} with some Gulp tasks to get you started.
