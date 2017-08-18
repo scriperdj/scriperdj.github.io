@@ -5,6 +5,7 @@ date:   2017-08-18
 categories: [Personal]
 tags: [pondicherry,goa,bike,train,road,beach]
 comments: true
+crosspost_to_medium: true
 ---
 
 Title sounds cool right? But no, I actually didn't make the whole trip on my bike (Fortunately). And this wasn't one of those leisure trips where I plan my routes, select places to visit & make arrangements for my stay. This was more of a relocation . Yes, I was moving to Goa for my job.
