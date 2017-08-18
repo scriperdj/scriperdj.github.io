@@ -98,7 +98,7 @@
 
 <p>You can run this test with Mocha with below command,</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>mocha --compilers js:babel-core/register</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ mocha --compilers js:babel-core/register</code></pre></figure>
 
 <p>But client side javascript involves Dom. You could very well install <a href="https://github.com/rstacruz/jsdom-global" target="_blank">jsdom-global</a> to solve document dependencies in your functions and test them. Thats ok, but what if we want to test using real browsers &amp; multiple devices?</p>
 
@@ -110,7 +110,7 @@
 
 <p>Now run the command to start karma, It will open the configured browsers and execute the test cases in all.</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>./node_modules/.bin/karma start karma.conf.js --log-level debug --single-run</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ ./node_modules/.bin/karma start karma.conf.js --log-level debug --single-run</code></pre></figure>
 
 <h5 id="connect-multiple-devices--auto-execute-test-cases-when-code-changes">Connect multiple devices &amp; auto execute test cases when code changes</h5>
 
@@ -119,6 +119,8 @@
 <p><img src="/images/posts/karma-testing.gif" alt="Read JioMags" /></p>
 
 <p>Set <em>autoWatch: true</em> in <strong><em>karma.config.js</em></strong> file to allow test cases execution whenever the files change. Also, you could debug the code by adding a line <strong><em>debugger</em></strong> to four function &amp; open Developer tools in your browser to start debugger. Exciting right? Go ahead &amp; try for yourself.</p>
+
+<p>Have setup <a href="https://github.com/scriperdj/Javascript-automated-unit-testing-with-browsers" target="_blank">boilerplate in Git repo</a> with some Gulp tasks to get you started.</p>
 
           <div id="comments" class="comments-main">
             
@@ -150,7 +152,7 @@
                 js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=612519132273800";
                 fjs.parentNode.insertBefore(js, fjs);
               }(document, 'script', 'facebook-jssdk'));</script>
-              <div class="fb-comments" data-href="http://sathish.me/javascript/2017/04/08/Settingup-environment-for-test-driven-development-of-client-side-javascript-using-mocha-and-karma.html" data-numposts="5"></div> -->
+              <div class="fb-comments" data-href="http://localhost:4000/javascript/2017/04/08/Settingup-environment-for-test-driven-development-of-client-side-javascript-using-mocha-and-karma.html" data-numposts="5"></div> -->
             
           </div>
         </div>
