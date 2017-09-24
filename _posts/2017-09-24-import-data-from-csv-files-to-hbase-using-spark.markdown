@@ -5,6 +5,7 @@ date:   2017-09-24
 categories: [Java]
 tags: [hbase,spark,java,csv]
 comments: true
+crosspost_to_medium: true
 ---
 Spark has multiple tutorials, examples & Stackoverflow solutions. But most of them are in Scala. If you want to develop something in Java, you are left with what is available in the Spark's examples package & few blog posts using older APIs for reference. This post aims to be an additional reference for the new Spark API(2.1.X) focusing on importing data from CSV files into HBase table.
 
