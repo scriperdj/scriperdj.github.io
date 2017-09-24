@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+  <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+  <title>Import data from CSV files to HBase using Spark</title>
+  <link rel="shortcut icon" href="favicon.ico">
+  <meta name="description" content="Spark has multiple tutorials, examples &amp; Stackoverflow solutions. But most of them are in Scala. If you want to develop something in Java, you are left w...">
+  <!-- Google Font-->
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,300,100italic,100,400italic,500,500italic,700,900,900italic,700italic%7COswald:400,300,700' rel='stylesheet' type='text/css'>
+  <!-- Design Style -->
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <link rel="stylesheet" type="text/css" href="/css/carousel.css">
+  <!-- Icon -->
+  <link rel="stylesheet" type="text/css" href="/css/font-awesome.css" />
+  <!-- Responsive -->
+  <link rel="stylesheet" type="text/css" href="/css/responsive.css" />
+  <!-- Pygments -->
+  <link rel="stylesheet" type="text/css" href="/css/monokai.css" />
+  <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-79509088-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+</head>
+
+  <body class="blog">
+    <div id="container" class="container">
+      <!-- Left Menu / Logo-->
+      <aside class="menu" id="menu">
+  <div class="logo">
+    <!-- Logo image-->
+    <img src="/images/logo.png" width="140" height="140" alt=""/>
+    <!-- Logo name-->
+    <span>Sathish Jayaraman</span>
+  </div>
+  <!-- Mobile Navigation-->
+  <a href="#menu1" class="menu-link"></a>
+  <!-- Left Navigation-->
+  <nav id="menu1" role="navigation">
+    <a href="/index.html?page=about">
+      <span class="active" id="link_about">About</span>
+    </a>
+    <a href="/index.html?page=skills">
+      <span id="link_skills">Skills</span>
+    </a>
+    <a href="/index.html?page=experience">
+      <span id="link_experience">Experience</span>
+    </a>
+    <a href="/index.html?page=education">
+      <span id="link_education">Education</span>
+    </a>
+    <a href="/index.html?page=contact">
+      <span id="link_contact">Contact</span>
+    </a>
+    <a href="/blog">
+      <span id="link_blog">Blog</span>
+    </a>
+  </nav>
+  <div class="copyright">
+     &copy; Sathish Jayaraman.<br>
+     All Rights Reserved.<br><br>
+     <!-- <center>Powered by <img src="/images/jekyll.png" width="80" alt=""/></center> -->
+  </div>
+
+</aside>
+
+      <div class="blog-main">
+        <div class="blog-left">
+          <div class="blog-title blog-details-title">
+            <h2>Import data from CSV files to HBase using Spark</h2>
+            <div class="breadcrumbs"><a href="/index.html?page=about">Home</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/blog">Blog</a>&nbsp;&nbsp;/&nbsp;&nbsp;Import data from CSV files to HBase using Spark</div>
+            <span class="post-details ">Sunday &nbsp;/&nbsp; 24 September 2017 &nbsp;/&nbsp; <a href="#"></a></span>
+          </div>
+          <p>Spark has multiple tutorials, examples &amp; Stackoverflow solutions. But most of them are in Scala. If you want to develop something in Java, you are left with what is available in the Spark’s examples package &amp; few blog posts using older APIs for reference. This post aims to be an additional reference for the new Spark API(2.1.X) focusing on importing data from CSV files into HBase table.</p>
+
+<p>Have coded this application to be generic to handle any CSV file schema. But no transformation on the data will be done, just dumps the data to hbase table (The table needs to be created before executing the app). The source code of this application is available in this <a href="https://github.com/scriperdj/import-csv-to-hbase-spark" target="_blank">Git repo</a>. Please read the README file to understand about the inputs. Feel free to modify for your requirements.</p>
+
+<h5 id="prerequisites">Prerequisites</h5>
+<p>Either localhost or remote machines running following services are required for executing this application.</p>
+<ul>
+  <li>HDFS, YARN, HBase from the Hadoop ecosystem</li>
+  <li>Spark distribution 2.1.1</li>
+</ul>
+
+<h5 id="install-hadoop-hbase--spark-in-pseudo-distributed-mode">Install Hadoop, HBase &amp; Spark in Pseudo-Distributed mode</h5>
+
+<p>You can follow the official documentations available for all the above frameworks to install them in remote machine. Following steps shows how to setup in local machine. (Assuming you have Java 1.8 already installed)</p>
+
+<p><strong>Hadoop</strong></p>
+<ul>
+  <li>Download the distribution from <a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/" target="_blank">Apache</a> and extract to home. Rename the folder to <code>hadoop</code>.</li>
+  <li>Modify <code>core-site.xml</code> &amp; <code>hdfs-site.xml</code> as mentioned in <a href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SingleCluster.html#Pseudo-Distributed_Operation" target="_blank">here</a></li>
+</ul>
+
+<p><strong>HBase</strong></p>
+<ul>
+  <li>Download distribution from <a href="http://www.apache.org/dyn/closer.cgi/hbase/" target="_blank">Apache</a> and extract to home. Rename the folder to <code>hbase</code>.</li>
+  <li>Modify <code>hbase-site.xml</code> as mentioned in <a href="https://hbase.apache.org/book.html#quickstart" target="_blank">here</a></li>
+</ul>
+
+<p><strong>Spark</strong></p>
+<ul>
+  <li>Download zip from <a href="https://spark.apache.org/downloads.html" target="_blank">here</a> &amp; extract to home. Rename the folder to <code>spark</code>.</li>
+</ul>
+
+<h5 id="start-all-the-required-services">Start all the required services</h5>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ ~/hadoop/sbin/start-dfs.sh
+$ ~/hadoop/sbin/start-yarn.sh
+$ ~/hbase/bin/start-hbase.sh</code></pre></figure>
+
+<p>You can also have all above commands saved in a file <code>start.sh</code> in Home so you could run all services from single bash file.</p>
+
+<h5 id="code-walkthrough">Code Walkthrough</h5>
+
+<p>The main class ‘ImportCsvToHBase’ is small and doesn’t need lot of explanation. It starts by reading the Yaml file. Creates Spark session &amp; hbase configurations needed for connection.</p>
+
+<script src="http://gist-it.appspot.com/https://github.com/scriperdj/import-csv-to-hbase-spark/blob/master/src/main/java/examples/spark/ImportCsvToHBase.java?slice=69:90"></script>
+
+<p>It then broadcasts the row key &amp; value data for the HBase table so the info is available to the worker nodes for processing.</p>
+
+<p>RDD of rows is created from the given CSV file. The data is converted into rows for hbase table based on the schema provided in the <code>params.yml</code> file.</p>
+
+<script src="http://gist-it.appspot.com/https://github.com/scriperdj/import-csv-to-hbase-spark/blob/master/src/main/java/examples/spark/ImportCsvToHBase.java?slice=94:122"></script>
+
+<p>And the RDD is saved to HBase table at the end &amp; Spark session is stopped.</p>
+
+<h5 id="execution--debugging">Execution &amp; debugging</h5>
+
+<ul>
+  <li>Create a fat jar with all the dependencies by following command. (Assuming Maven is already installed.)</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ mvn package</code></pre></figure>
+
+<ul>
+  <li>Submit the jar using spark-submit script along with the location of params.yml file as argument.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ ~/spark/bin/spark-submit --class examples.spark.ImportCsvToHBase --master yarn target/import-csv-to-hbase-1.0-SNAPSHOT-shaded.jar params.yml</code></pre></figure>
+
+<ul>
+  <li>
+    <p>Since this is a batch application, you can see all the logs in the console. Also you can watch the status in the YARN UI at localhost:8088
+<img src="/images/posts/Screenshot-2017-9-24.png" alt="YARN" height="500px" width="700px" /></p>
+  </li>
+  <li>
+    <p>The logs in console won’t show the worker logs. That can be viewed from below command. (Change the application Id)</p>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ ~/hadoop/bin/yarn logs -applicationId application_1506253750715_0008</code></pre></figure>
+
+
+          <div id="comments" class="comments-main">
+            
+              <div id="disqus_thread"></div>
+              <script>
+
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = '//sathish-me.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+              </script>
+              <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              <!-- <div id="fb-root"></div>
+              <script>(function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=612519132273800";
+                fjs.parentNode.insertBefore(js, fjs);
+              }(document, 'script', 'facebook-jssdk'));</script>
+              <div class="fb-comments" data-href="http://localhost:4000/java/2017/09/24/import-data-from-csv-files-to-hbase-using-spark.html" data-numposts="5"></div> -->
+            
+          </div>
+        </div>
+        <!-- <div class="blog-right">
+
+  <div class="sidebar-block">
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="#">Web Design</a><span class="pull-right">48</span></li>
+      <li><a href="#">Featured Blog</a><span class="pull-right">66</span></li>
+      <li><a href="#">Photography Idea</a><span class="pull-right">32</span></li>
+      <li><a href="#">Design Tutorials</a><span class="pull-right">16</span></li>
+      <li><a href="#">News and Events</a><span class="pull-right">25</span></li>
+      <li><a href="#">Arts and Entertainment</a><span class="pull-right">38</span></li>
+    </ul>
+  </div>
+  <div class="sidebar-block">
+    <h3>Tags Cloud</h3>
+    <div class="tagcloud"> <a href="javascript:void(0)">Advertisement</a> <a href="javascript:void(0)">Fashion</a> <a href="javascript:void(0)">Forest</a> <a href="javascript:void(0)">Nature</a> <a href="javascript:void(0)">Photo</a> <a href="javascript:void(0)">Portrait</a> <a href="javascript:void(0)">Sea</a> <a href="javascript:void(0)">Sky</a> <a href="javascript:void(0)">Wordpress</a> </div>
+  </div>
+
+</div>
+ -->
+      </div>
+    </div>
+    <!-- Portfolio Slider-->
+<script type="text/javascript" src="/js/carousel.js"></script>
+<script type="text/javascript" src="/js/settings-blog.js"></script>
+<script>
+$(document).ready(function(){
+  $('#link_blog').addClass("active")
+  $('#link_about').removeClass('active');
+});
+</script>
+
+  </body>
+</html>
