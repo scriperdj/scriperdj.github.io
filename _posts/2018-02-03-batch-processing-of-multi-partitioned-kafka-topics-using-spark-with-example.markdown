@@ -5,6 +5,7 @@ date:   2018-02-03
 categories: [Scala]
 tags: [kafka,spark,scala]
 comments: true
+crosspost_to_medium: true
 ---
 There are multiple usecases where we can think of using Kafka alongside Spark for streaming realtime ETL processing  involved in projects like tracking web activities, monitoring servers, detecting anomalies in Engine parts and so on. The architecture involves the source producing data which is sent to a Kafka topic & the consumer processes the data for every predefined batch interval.
 
