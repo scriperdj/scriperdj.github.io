@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+  <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+  <title>Batch processing of multi-partitioned Kafka topics using Spark with example</title>
+  <link rel="shortcut icon" href="favicon.ico">
+  <meta name="description" content="There are multiple usecases where we can think of using Kafka alongside Spark for streaming realtime ETL processing  involved in projects like tracking web a...">
+  <!-- Google Font-->
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,300,100italic,100,400italic,500,500italic,700,900,900italic,700italic%7COswald:400,300,700' rel='stylesheet' type='text/css'>
+  <!-- Design Style -->
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <link rel="stylesheet" type="text/css" href="/css/carousel.css">
+  <!-- Icon -->
+  <link rel="stylesheet" type="text/css" href="/css/font-awesome.css" />
+  <!-- Responsive -->
+  <link rel="stylesheet" type="text/css" href="/css/responsive.css" />
+  <!-- Pygments -->
+  <link rel="stylesheet" type="text/css" href="/css/monokai.css" />
+  <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-79509088-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+</head>
+
+  <body class="blog">
+    <div id="container" class="container">
+      <!-- Left Menu / Logo-->
+      <aside class="menu" id="menu">
+  <div class="logo">
+    <!-- Logo image-->
+    <img src="/images/logo.png" width="140" height="140" alt=""/>
+    <!-- Logo name-->
+    <span>Sathish Jayaraman</span>
+  </div>
+  <!-- Mobile Navigation-->
+  <a href="#menu1" class="menu-link"></a>
+  <!-- Left Navigation-->
+  <nav id="menu1" role="navigation">
+    <a href="/index.html?page=about">
+      <span class="active" id="link_about">About</span>
+    </a>
+    <a href="/index.html?page=skills">
+      <span id="link_skills">Skills</span>
+    </a>
+    <a href="/index.html?page=experience">
+      <span id="link_experience">Experience</span>
+    </a>
+    <a href="/index.html?page=education">
+      <span id="link_education">Education</span>
+    </a>
+    <a href="/index.html?page=contact">
+      <span id="link_contact">Contact</span>
+    </a>
+    <a href="/blog">
+      <span id="link_blog">Blog</span>
+    </a>
+  </nav>
+  <div class="copyright">
+     &copy; Sathish Jayaraman.<br>
+     All Rights Reserved.<br><br>
+     <!-- <center>Powered by <img src="/images/jekyll.png" width="80" alt=""/></center> -->
+  </div>
+
+</aside>
+
+      <div class="blog-main">
+        <div class="blog-left">
+          <div class="blog-title blog-details-title">
+            <h2>Batch processing of multi-partitioned Kafka topics using Spark with example</h2>
+            <div class="breadcrumbs"><a href="/index.html?page=about">Home</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/blog">Blog</a>&nbsp;&nbsp;/&nbsp;&nbsp;Batch processing of multi-partitioned Kafka topics using Spark with example</div>
+            <span class="post-details ">Saturday &nbsp;/&nbsp; 03 February 2018 &nbsp;/&nbsp; <a href="#"></a></span>
+          </div>
+          <p>There are multiple usecases where we can think of using Kafka alongside Spark for streaming realtime ETL processing  involved in projects like tracking web activities, monitoring servers, detecting anomalies in Engine parts and so on. The architecture involves the source producing data which is sent to a Kafka topic &amp; the consumer processes the data for every predefined batch interval.</p>
+
+<p><img src="/images/posts/img.jpg" alt="Spark Kafka" height="400px" width="300px" /></p>
+
+<h5 id="why-batch-processing-from-kakfa">Why Batch processing from Kakfa?</h5>
+<p>Any batch processing logic would need to extract required data from the storage warehouse and depending on the amount of data, this operation would involve a lot of time. Even with HBase / ElasticSearch which allows parallel reads with respect to the region splits / shards, the time involved in reading data is considerable.</p>
+
+<p><a href="https://kafka.apache.org/intro#kafka_storage" target="_blank">Kafka as a Storage System</a> gives us all benefits of the fault-toleran, distributed storage and the throughput of Streaming system.</p>
+
+<p>Apart from usual producer/consumer setup, Kafka also provides ways of rereading messages either from beginning of between certain offset ranges. Though the default retention period of messages in Kafka topic is 30 days, it could be altered or provided as parameter while creating new topic making it an excellent source with Historic + Realtime data.</p>
+
+<h5 id="with-spark">With Spark</h5>
+<p>Using Spark to process messages in Kafka topic would obviously fasten things up as each Spark executor will work on each Kafka partition. So choosing right partitioning logic for your Kafka topic is important if you want to take advantage of the parallelism Spark provides.</p>
+
+<p>The <a href="https://spark.apache.org/docs/latest/streaming-kafka-0-10-integration.html" target="_blank">Spark-Kafka integraion</a> provides two ways to consume messages.</p>
+<ul>
+  <li><em>KafkaUtils.createDirectStream</em> for Streaming</li>
+  <li><em>KafkaUtils.createRDD</em> for Batch</li>
+</ul>
+
+<p>In our example Spark application, we would be using <em>KafkaUtils.createRDD</em>.</p>
+
+<h5 id="example-application">Example Application</h5>
+<p>We shall consider users browsing behaviour data generated from Ecommerce website. Such behaviour data can have a large schema with users IP, browser details and much more. But to keep it simple, we shall use below schema.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="p">{</span>
+	<span class="s2">&quot;customer&quot;</span><span class="o">:</span> <span class="s2">&quot;cus01&quot;</span><span class="p">,</span>
+	<span class="s2">&quot;product&quot;</span><span class="o">:</span> <span class="s2">&quot;PD0021&quot;</span><span class="p">,</span>
+	<span class="s2">&quot;category&quot;</span><span class="o">:</span> <span class="s2">&quot;PD0021&quot;</span><span class="p">,</span>
+	<span class="s2">&quot;ts&quot;</span><span class="o">:</span> <span class="s2">&quot;1516978415&quot;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h5 id="prerequisites">Prerequisites</h5>
+<p>Either localhost or remote machines running following services are required for executing this application.</p>
+<ul>
+  <li>Apache Kafka 0.11</li>
+  <li>Hadoop 2.8.1</li>
+  <li>Spark distribution 2.1.1</li>
+</ul>
+
+<p><em>You can refer <a href="/java/2017/09/24/import-data-from-csv-files-to-hbase-using-spark.html" target="_blank">this post</a> for setting up the environment locally.</em></p>
+
+<h5 id="scope-of-spark-job">Scope of Spark job</h5>
+<ul>
+  <li>Get partition &amp; offset details of provided Kafka topics.</li>
+  <li>Create DataFrame with the data read.</li>
+  <li><strong>Find Top trending product in each category based on users browsing data.</strong></li>
+</ul>
+
+<p>The source &amp; execution guide is available in <a href="https://github.com/scriperdj/kafka_batch_processing_using_spark_sample" target="_blank">this Git repository</a> and should be easy to understand if you are already familiar with<a href="https://spark.apache.org/docs/latest/quick-start.html" target="_blank"> Spark style of programming</a></p>
+
+          <div id="comments" class="comments-main">
+            
+              <div id="disqus_thread"></div>
+              <script>
+
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = '//sathish-me.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+              </script>
+              <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              <!-- <div id="fb-root"></div>
+              <script>(function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=612519132273800";
+                fjs.parentNode.insertBefore(js, fjs);
+              }(document, 'script', 'facebook-jssdk'));</script>
+              <div class="fb-comments" data-href="http://localhost:4000/scala/2018/02/03/batch-processing-of-multi-partitioned-kafka-topics-using-spark-with-example.html" data-numposts="5"></div> -->
+            
+          </div>
+        </div>
+        <!-- <div class="blog-right">
+
+  <div class="sidebar-block">
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="#">Web Design</a><span class="pull-right">48</span></li>
+      <li><a href="#">Featured Blog</a><span class="pull-right">66</span></li>
+      <li><a href="#">Photography Idea</a><span class="pull-right">32</span></li>
+      <li><a href="#">Design Tutorials</a><span class="pull-right">16</span></li>
+      <li><a href="#">News and Events</a><span class="pull-right">25</span></li>
+      <li><a href="#">Arts and Entertainment</a><span class="pull-right">38</span></li>
+    </ul>
+  </div>
+  <div class="sidebar-block">
+    <h3>Tags Cloud</h3>
+    <div class="tagcloud"> <a href="javascript:void(0)">Advertisement</a> <a href="javascript:void(0)">Fashion</a> <a href="javascript:void(0)">Forest</a> <a href="javascript:void(0)">Nature</a> <a href="javascript:void(0)">Photo</a> <a href="javascript:void(0)">Portrait</a> <a href="javascript:void(0)">Sea</a> <a href="javascript:void(0)">Sky</a> <a href="javascript:void(0)">Wordpress</a> </div>
+  </div>
+
+</div>
+ -->
+      </div>
+    </div>
+    <!-- Portfolio Slider-->
+<script type="text/javascript" src="/js/carousel.js"></script>
+<script type="text/javascript" src="/js/settings-blog.js"></script>
+<script>
+$(document).ready(function(){
+  $('#link_blog').addClass("active")
+  $('#link_about').removeClass('active');
+});
+</script>
+
+  </body>
+</html>
