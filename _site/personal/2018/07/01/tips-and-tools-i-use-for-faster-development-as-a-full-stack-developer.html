@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+  <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+  <title>Tips &amp; tools I use for faster development as a Full Stack Developer</title>
+  <link rel="shortcut icon" href="favicon.ico">
+  <meta name="description" content="I had been so held up with work all these days &amp; didn’t realize that I left this place awfully quiet which is embarrassing. So am writing this post as it...">
+  <!-- Google Font-->
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,300,100italic,100,400italic,500,500italic,700,900,900italic,700italic%7COswald:400,300,700' rel='stylesheet' type='text/css'>
+  <!-- Design Style -->
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <link rel="stylesheet" type="text/css" href="/css/carousel.css">
+  <!-- Icon -->
+  <link rel="stylesheet" type="text/css" href="/css/font-awesome.css" />
+  <!-- Responsive -->
+  <link rel="stylesheet" type="text/css" href="/css/responsive.css" />
+  <!-- Pygments -->
+  <link rel="stylesheet" type="text/css" href="/css/monokai.css" />
+  <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-79509088-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+</head>
+
+  <body class="blog">
+    <div id="container" class="container">
+      <!-- Left Menu / Logo-->
+      <aside class="menu" id="menu">
+  <div class="logo">
+    <!-- Logo image-->
+    <img src="/images/logo.png" width="140" height="140" alt=""/>
+    <!-- Logo name-->
+    <span>Sathish Jayaraman</span>
+  </div>
+  <!-- Mobile Navigation-->
+  <a href="#menu1" class="menu-link"></a>
+  <!-- Left Navigation-->
+  <nav id="menu1" role="navigation">
+    <a href="/index.html?page=about">
+      <span class="active" id="link_about">About</span>
+    </a>
+    <a href="/index.html?page=skills">
+      <span id="link_skills">Skills</span>
+    </a>
+    <a href="/index.html?page=experience">
+      <span id="link_experience">Experience</span>
+    </a>
+    <a href="/index.html?page=education">
+      <span id="link_education">Education</span>
+    </a>
+    <a href="/index.html?page=contact">
+      <span id="link_contact">Contact</span>
+    </a>
+    <a href="/blog">
+      <span id="link_blog">Blog</span>
+    </a>
+  </nav>
+  <div class="copyright">
+     &copy; Sathish Jayaraman.<br>
+     All Rights Reserved.<br><br>
+     <!-- <center>Powered by <img src="/images/jekyll.png" width="80" alt=""/></center> -->
+  </div>
+
+</aside>
+
+      <div class="blog-main">
+        <div class="blog-left">
+          <div class="blog-title blog-details-title">
+            <h2>Tips & tools I use for faster development as a Full Stack Developer</h2>
+            <div class="breadcrumbs"><a href="/index.html?page=about">Home</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/blog">Blog</a>&nbsp;&nbsp;/&nbsp;&nbsp;Tips & tools I use for faster development as a Full Stack Developer</div>
+            <span class="post-details ">Sunday &nbsp;/&nbsp; 01 July 2018 &nbsp;/&nbsp; <a href="#">Personal</a></span>
+          </div>
+          <p>I had been so held up with work all these days &amp; didn’t realize that I left this place awfully quiet which is embarrassing. So am writing this post as its easy to write about what I use everyday.</p>
+
+<p><img src="/images/posts/tips_header.jpg" alt="Tips &amp; Tools" height="400px" width="300px" /></p>
+
+<p>As a developer, we spend most of our time thinking about the problem than actually coding the solution. And double the time testing it &amp; fixing the bugs. According to me, pushing limits to make development faster will always end in chaos. But building clean code right from the start makes a slow but solid progress. Also clearing all queries before starting the project, finding bugs at early phase, reducing key-strokes by automating your routine helps to make development faster.</p>
+
+<p>I follow the principle of travelling light weight in order to go a long way. Am not using any cool new softwares or AI based personal assistant to make my life easy. I stick to the basics and trust me, that’s all you need to get 90% of the job done.</p>
+
+<p><em>Just a warning before you read further</em></p>
+
+<blockquote>
+  <p>If you are a developer (which am sure you are, else what are you doing here?), you may have come across all these tools already and there may be nothing new.</p>
+</blockquote>
+
+<h5 id="startup-apps--scripts">Startup Apps &amp; Scripts</h5>
+
+<p>Am into the practice of shutting down my machine everyday after am done with my work. It kind of makes me feel am starting something fresh every morning. Also we all know that restarting the machine solves problems that are beyond the developer explanation.</p>
+
+<p>But at the same time, am lazy to open everything one by one by clicking icons. So I have added all the applications I use everyday to start at system startup. Also, I want my stack to be up too which includes the NodeManagers, YARN, Kafka, ES server instances, etc. So I made use of the Script Editor (Mac) to create a startup script like below which starts all services I need for development.</p>
+
+<p><img src="/images/posts/script_editor.png" alt="Script Editor" height="500px" width="600px" /></p>
+
+<h5 id="notes">Notes</h5>
+
+<p>I start my work with an empty notepad document (<a href="https://itunes.apple.com/us/app/iwrite/id1022441331" target="\_blank">iWrite</a>). By the end of the day, it will be filled with every single command I used, thought I had &amp; scribbling I made. Before shutting down, dump this document in <a href="https://support.apple.com/kb/PH22608?locale=en_US" target="\_blank">Notes</a>. So I have a log of everything I had been doing.</p>
+
+<p>I also use <a href="http://www.onenote.com" target="\_blank">Microsoft OneNote</a> which I think is the best in organizing the details about project, stack, commands &amp; even code snippets which I use regularly.</p>
+
+<h5 id="editor--terminal">Editor &amp; Terminal</h5>
+
+<p>Like I said in my introduction page, I still stick with a text editor &amp; terminal for all my projects. I never liked the IDEs attitude I guess. Thought its super smart &amp; gives all suggestions, templates and everything, I don’t like it slapping in my face with all red / orange messages &amp; exclamation marks. Of course once can switch off these features &amp; do stuff, but you know am lazy to do all that.</p>
+
+<p>My favorite text editor is <a href="https://atom.io/" target="\_blank">Atom</a> &amp; I use <a href="http://iterm2.com/" target="\_blank">iTerm2</a> as my terminal.</p>
+
+<p>iTerm2 has many cool features including multi splits &amp; tabs, autofill, etc. I also configured ssh to login &amp; scp using names instead of IP addresses as <a href="https://serverfault.com/questions/215007/associate-name-with-ip-for-ssh" target="\_blank">mentioned here</a> and <a href="https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/" target="\_blank">login without password</a> as these little things account for reducing your overall keystrokes.</p>
+
+<h5 id="online-offline-tools">Online/ Offline tools</h5>
+
+<ul>
+  <li><a href="https://www.getpostman.com/" target="\_blank">Postman</a></li>
+  <li><a href="https://gulpjs.com/" target="\_blank">Gulp</a></li>
+  <li><a href="http://jsonlint.com/" target="\_blank">JsonLint</a></li>
+  <li><a href="https://www.cleancss.com/" target="\_blank">Converters</a></li>
+  <li><a href="http://www.freeformatter.com" target="\_blank">Formatters</a></li>
+</ul>
+
+<p>With help of these &amp; an attitude to (you know) “Never give-up”, I have been coding for a better tomorrow. Its simple isn’t it. Believe me, that’s all it takes.</p>
+
+          <div id="comments" class="comments-main">
+            
+              <div id="disqus_thread"></div>
+              <script>
+
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = '//sathish-me.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+              </script>
+              <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              <!-- <div id="fb-root"></div>
+              <script>(function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=612519132273800";
+                fjs.parentNode.insertBefore(js, fjs);
+              }(document, 'script', 'facebook-jssdk'));</script>
+              <div class="fb-comments" data-href="http://localhost:4000/personal/2018/07/01/tips-and-tools-i-use-for-faster-development-as-a-full-stack-developer.html" data-numposts="5"></div> -->
+            
+          </div>
+        </div>
+        <!-- <div class="blog-right">
+
+  <div class="sidebar-block">
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="#">Web Design</a><span class="pull-right">48</span></li>
+      <li><a href="#">Featured Blog</a><span class="pull-right">66</span></li>
+      <li><a href="#">Photography Idea</a><span class="pull-right">32</span></li>
+      <li><a href="#">Design Tutorials</a><span class="pull-right">16</span></li>
+      <li><a href="#">News and Events</a><span class="pull-right">25</span></li>
+      <li><a href="#">Arts and Entertainment</a><span class="pull-right">38</span></li>
+    </ul>
+  </div>
+  <div class="sidebar-block">
+    <h3>Tags Cloud</h3>
+    <div class="tagcloud"> <a href="javascript:void(0)">Advertisement</a> <a href="javascript:void(0)">Fashion</a> <a href="javascript:void(0)">Forest</a> <a href="javascript:void(0)">Nature</a> <a href="javascript:void(0)">Photo</a> <a href="javascript:void(0)">Portrait</a> <a href="javascript:void(0)">Sea</a> <a href="javascript:void(0)">Sky</a> <a href="javascript:void(0)">Wordpress</a> </div>
+  </div>
+
+</div>
+ -->
+      </div>
+    </div>
+    <!-- Portfolio Slider-->
+<script type="text/javascript" src="/js/carousel.js"></script>
+<script type="text/javascript" src="/js/settings-blog.js"></script>
+<script>
+$(document).ready(function(){
+  $('#link_blog').addClass("active")
+  $('#link_about').removeClass('active');
+});
+</script>
+
+  </body>
+</html>
