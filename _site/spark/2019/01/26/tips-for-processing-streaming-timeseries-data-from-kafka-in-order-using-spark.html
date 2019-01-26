@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+  <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+  <title>Tips for processing streaming timeseries data from Kafka in order using Spark</title>
+  <link rel="shortcut icon" href="favicon.ico">
+  <meta name="description" content="I skipped writing this post thinking it would be basic. But after answering few doubt from my colleagues and remembering the mistakes I did in past, think th...">
+  <!-- Google Font-->
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,300,100italic,100,400italic,500,500italic,700,900,900italic,700italic%7COswald:400,300,700' rel='stylesheet' type='text/css'>
+  <!-- Design Style -->
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <link rel="stylesheet" type="text/css" href="/css/carousel.css">
+  <!-- Icon -->
+  <link rel="stylesheet" type="text/css" href="/css/font-awesome.css" />
+  <!-- Responsive -->
+  <link rel="stylesheet" type="text/css" href="/css/responsive.css" />
+  <!-- Pygments -->
+  <link rel="stylesheet" type="text/css" href="/css/monokai.css" />
+  <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-79509088-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+</head>
+
+  <body class="blog">
+    <div id="container" class="container">
+      <!-- Left Menu / Logo-->
+      <aside class="menu" id="menu">
+  <div class="logo">
+    <!-- Logo image-->
+    <img src="/images/logo.png" width="140" height="140" alt=""/>
+    <!-- Logo name-->
+    <span>Sathish Jayaraman</span>
+  </div>
+  <!-- Mobile Navigation-->
+  <a href="#menu1" class="menu-link"></a>
+  <!-- Left Navigation-->
+  <nav id="menu1" role="navigation">
+    <a href="/index.html?page=about">
+      <span class="active" id="link_about">About</span>
+    </a>
+    <a href="/index.html?page=skills">
+      <span id="link_skills">Skills</span>
+    </a>
+    <a href="/index.html?page=experience">
+      <span id="link_experience">Experience</span>
+    </a>
+    <a href="/index.html?page=education">
+      <span id="link_education">Education</span>
+    </a>
+    <a href="/index.html?page=contact">
+      <span id="link_contact">Contact</span>
+    </a>
+    <a href="/blog">
+      <span id="link_blog">Blog</span>
+    </a>
+  </nav>
+  <div class="copyright">
+     &copy; Sathish Jayaraman.<br>
+     All Rights Reserved.<br><br>
+     <!-- <center>Powered by <img src="/images/jekyll.png" width="80" alt=""/></center> -->
+  </div>
+
+</aside>
+
+      <div class="blog-main">
+        <div class="blog-left">
+          <div class="blog-title blog-details-title">
+            <h2>Tips for processing streaming timeseries data from Kafka in order using Spark</h2>
+            <div class="breadcrumbs"><a href="/index.html?page=about">Home</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/blog">Blog</a>&nbsp;&nbsp;/&nbsp;&nbsp;Tips for processing streaming timeseries data from Kafka in order using Spark</div>
+            <span class="post-details ">Saturday &nbsp;/&nbsp; 26 January 2019 &nbsp;/&nbsp; <a href="#">Spark</a></span>
+          </div>
+          <p>I skipped writing this post thinking it would be basic. But after answering few doubt from my colleagues and remembering the mistakes I did in past, think this post will be helpful for people to understand how to process streaming data without messing up the order in which they are produced.</p>
+
+<p><img src="/images/posts/kafka_stream.jpg" alt="Tips &amp; Tools" /></p>
+
+<p>In one of <a href="http://sathish.me/scala/2018/02/03/batch-processing-of-multi-partitioned-kafka-topics-using-spark-with-example.html" target="\_blank">my previous posts</a>, I had explained about using Kafka as data source for Spark batch jobs. In this post, I intend to highlight few points for processing streaming data in sorted order which is very important for many business usecases.</p>
+
+<blockquote>
+  <p><em>This post only focuses on handling data that are already being produced in order by the datasource. Below points are applicable for processing events in order in which they are produced. There is a different programming model (<a href="https://spark.apache.org/docs/2.2.0/structured-streaming-programming-guide.html#programming-model" target="\_blank">Structured streaming</a>) in Spark if your data itself is produced out of order by the datasource.</em></p>
+</blockquote>
+
+<h5 id="about-sample-application">About sample application</h5>
+
+<p>For explaining the cases, I have built a sample application &amp; pushed the Source codes in <a href="https://github.com/scriperdj/stream_timeseries_data_in_order_using_kafka_spark" target="\_blank">this Git repo</a> with Readme of how to execute. We shall consider processing events like pageview/click triggered from browser for this sample application. Below is a simple schema in <a href="https://avro.apache.org/" target="\_blank">Avro</a> for such data.</p>
+
+<script src="https://gist.github.com/scriperdjq/1c9206fd3d08466ec013a7f29e913779.js"></script>
+
+<h5 id="1-use-right-partition-key-to-distribute-your-data">1. Use right partition key to distribute your data</h5>
+
+<p>Kafka stores the logs of each partition of a topic in separate logs directory. So if your application requires data to be consumed in same order as its being produced, choosing right partition key is important.</p>
+
+<p>In the sample application, we can choose user_id as our partition key since we need events to be stored in order with the context of each user. By default, Kafka uses hash of the key &amp; no. of partitions available in the topic to decide which partition to place it. You can change this by using a custom partitioner or map each event to a specific partition while pushing to topic. The default behaviour is good for most of the applications.</p>
+
+<p>For a topic of 4 partitions, each partition has logs for a subset of keys in same order as they are pushed. Though multiple datasources can write to the topic at different intervals, two sources shouldn’t produce data for single key as the timestamps &amp; write intervals may differ.</p>
+
+<p><img src="/images/posts/partitions.png" alt="Partitions" /></p>
+
+<h5 id="2-scale-partitions-depending-on-your-executors">2. Scale partitions depending on your executors</h5>
+
+<p>More partitions means higher throughput in Kafka. There is a good post about understanding <a href="https://www.confluent.io/blog/how-choose-number-topics-partitions-kafka-cluster" target="\_blank">what is the recommended partitions</a> for a topic. In streaming context, Spark doesn’t create consumer groups based on the executors available for the job. But rather Spark’s ConsumerCoordinator creates a consumer-group for each partition of the topic and is distributed as tasks to all executors with offsets split for each batch.</p>
+
+<p>In below screenshot you can see for a topic of 900 partitions (max recommended for my setup), Spark creates equal number of tasks that is being processed by all available executors parallelly. The high number of partitions increases the processing time for each batch &amp; thus introduces latency to streaming pipeline.</p>
+
+<p><img src="/images/posts/tasks.png" alt="spark_tasks" /></p>
+
+<p>In this sample application, the time taken to process 12K records in a batch of 8 partitions is lesser when compared to 900 partitions of same volume of data.</p>
+
+<p><em>Kafka supports changing number of partitions for a topic after it is created. But be aware that you can’t scale down the partitions once you scaled up. The topic has to be deleted &amp; created newly if you have to scale down.</em></p>
+
+<h5 id="3-dont-use-functions-that-shufflesrepartitions-the-data">3. Don’t use functions that shuffles/repartitions the data.</h5>
+
+<p>Spark repartitions the Dataframe / Rdd when you apply <a href="https://spark.apache.org/docs/1.6.1/api/java/org/apache/spark/sql/DataFrame.html#sort" target="\_blank">sort by column</a> or <a href="https://spark.apache.org/docs/2.1.1/api/java/org/apache/spark/rdd/RDD.html#sortBy" target="\_blank">sortBy</a>. This default behaviour changes the order of the messages when they are reshuffled to different partitions.</p>
+
+<p>You can use using <a href="https://spark.apache.org/docs/1.2.0/api/java/org/apache/spark/rdd/OrderedRDDFunctions.html#repartitionAndSortWithinPartitions" target="\_blank"><code>repartitionAndSortWithinPartitions</code></a> that supports use of custom partitioner which can be used while sorting data. <a href="http://codingjunkie.net/spark-secondary-sort/" target="\_blank">This blog post</a> explains in detail about using the technique for mapping data to partition in sorted order.</p>
+
+<h5 id="4-throttle-the-volume-of-messages--setup-right-batch-interval">4. Throttle the volume of messages &amp; setup right batch interval</h5>
+
+<p>By default, Spark fetches all available messages for each partition of a topic while executing each batch. This behaviour will make your spark job to fail when there is a burst of data in single batch that exceeds executor memory. For Streaming applications that runs in production, its recommended to set the <a href="https://spark.apache.org/docs/latest/configuration.html#spark-streaming" target="\_blank"><code>backpressure &amp; maxRatePerPartition</code></a> for throttling the data volume of each batch.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ spark-submit --conf spark.streaming.backpressure.enabled<span class="o">=</span><span class="nb">true</span> --conf spark.streaming.kafka.maxRatePerPartition<span class="o">=</span><span class="m">5000</span> --executor-cores <span class="m">4</span> --num-executors <span class="m">4</span> --class me.sathish.example.spark.SortedStreamProcessor --master yarn kafka_stream_processing_sorted_order_2.11-1.0.jar config.yml</code></pre></figure>
+
+<p>Setup the <a href="https://spark.apache.org/docs/latest/streaming-programming-guide.html#setting-the-right-batch-interval" target="\_blank">batch interval</a> of the application as average process-time first few batches to avoid queuing of future batches. Though queuing don’t have direct impact on the running application, the latency of the pipeline builds up of not handled properly.</p>
+
+<h5 id="5-save-offsets-of-all-partitions-for-processed-data--restart-from-saved-offsets">5. Save offsets of all partitions for processed data &amp; restart from saved offsets</h5>
+
+<p>Streaming application run for long and the business logic keeps changing over period. So in actual production scenario, apart from job failures we may have to stop current application &amp; schedule a new version with updated logic. In order to ensure there is no data loss on such cases, make sure to <a href="https://stackoverflow.com/questions/45688897/spark-streaming-graceful-shutdown" target="\_blank">shutdown the application gracefully</a> &amp; restart from saved offsets. Spark supports saving offsets of messages in <a href="https://spark.apache.org/docs/2.3.1/streaming-kafka-0-10-integration.html#storing-offsets" target="\_blank">three ways</a>.</p>
+
+<p>When compared to checkpointing &amp; saving offsets in kafka itself, I favour the approach of saving offsets to external source as its not affected by code changes and also has the flexibility of modifying offsets in case of mishaps.</p>
+
+<p>I hope these points were helpful in understanding the concepts for processing messages in order using Spark.</p>
+
+          <div id="comments" class="comments-main">
+            
+              <div id="disqus_thread"></div>
+              <script>
+
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = '//sathish-me.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+              </script>
+              <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              <!-- <div id="fb-root"></div>
+              <script>(function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=612519132273800";
+                fjs.parentNode.insertBefore(js, fjs);
+              }(document, 'script', 'facebook-jssdk'));</script>
+              <div class="fb-comments" data-href="http://localhost:4000/spark/2019/01/26/tips-for-processing-streaming-timeseries-data-from-kafka-in-order-using-spark.html" data-numposts="5"></div> -->
+            
+          </div>
+        </div>
+        <!-- <div class="blog-right">
+
+  <div class="sidebar-block">
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="#">Web Design</a><span class="pull-right">48</span></li>
+      <li><a href="#">Featured Blog</a><span class="pull-right">66</span></li>
+      <li><a href="#">Photography Idea</a><span class="pull-right">32</span></li>
+      <li><a href="#">Design Tutorials</a><span class="pull-right">16</span></li>
+      <li><a href="#">News and Events</a><span class="pull-right">25</span></li>
+      <li><a href="#">Arts and Entertainment</a><span class="pull-right">38</span></li>
+    </ul>
+  </div>
+  <div class="sidebar-block">
+    <h3>Tags Cloud</h3>
+    <div class="tagcloud"> <a href="javascript:void(0)">Advertisement</a> <a href="javascript:void(0)">Fashion</a> <a href="javascript:void(0)">Forest</a> <a href="javascript:void(0)">Nature</a> <a href="javascript:void(0)">Photo</a> <a href="javascript:void(0)">Portrait</a> <a href="javascript:void(0)">Sea</a> <a href="javascript:void(0)">Sky</a> <a href="javascript:void(0)">Wordpress</a> </div>
+  </div>
+
+</div>
+ -->
+      </div>
+    </div>
+    <!-- Portfolio Slider-->
+<script type="text/javascript" src="/js/carousel.js"></script>
+<script type="text/javascript" src="/js/settings-blog.js"></script>
+<script>
+$(document).ready(function(){
+  $('#link_blog').addClass("active")
+  $('#link_about').removeClass('active');
+});
+</script>
+
+  </body>
+</html>
