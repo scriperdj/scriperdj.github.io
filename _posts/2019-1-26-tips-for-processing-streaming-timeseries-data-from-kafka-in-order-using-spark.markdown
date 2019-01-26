@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Tips for processing streaming timeseries data from Kafka in order using Spark"
+title:  "Tips for processing streaming timeseries data in order using Kafka and Spark"
 date:   2019-1-26
 category: Spark
 tags: [spark,kafka,tips]
