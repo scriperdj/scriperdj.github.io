@@ -8,7 +8,7 @@ comments: true
 crosspost_to_medium: false
 ---
 
-I skipped writing this post thinking it would be basic. But after answering few doubt from my colleagues and remembering the mistakes I did in past, think this post will be helpful for people to understand how to process streaming data without messing up the order in which they are produced.
+I skipped writing this post thinking it would be basic. But after getting same doubts from my colleagues and remembering the mistakes I did in past, think this post will be helpful for people to understand how to process streaming data without messing up the order in which they are produced.
 
 ![Tips & Tools]({{ site.baseurl }}/images/posts/kafka_stream.jpg)
 
