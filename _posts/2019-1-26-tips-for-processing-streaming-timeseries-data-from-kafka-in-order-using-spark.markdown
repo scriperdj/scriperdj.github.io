@@ -64,6 +64,6 @@ Setup the [batch interval](https://spark.apache.org/docs/latest/streaming-progra
 
 Streaming application run for long and the business logic keeps changing over period. So in actual production scenario, apart from job failures we may have to stop current application & schedule a new version with updated logic. In order to ensure there is no data loss on such cases, make sure to [shutdown the application gracefully](https://stackoverflow.com/questions/45688897/spark-streaming-graceful-shutdown){:target="\_blank"} & restart from saved offsets. Spark supports saving offsets of messages in [three ways](https://spark.apache.org/docs/2.3.1/streaming-kafka-0-10-integration.html#storing-offsets){:target="\_blank"}.
 
-When compared to checkpointing & saving offsets in kafka itself, I favour the approach of saving offsets to external source as its not affected by code changes and also has the flexibility of modifying offsets in case of mishaps.
+When compared to checkpointing & saving offsets in kafka itself, I prefer the approach of saving offsets to external source as its not affected by code changes and also has the flexibility of modifying offsets in case of mishaps.
 
 I hope these points were helpful in understanding the concepts for processing messages in order using Spark.
