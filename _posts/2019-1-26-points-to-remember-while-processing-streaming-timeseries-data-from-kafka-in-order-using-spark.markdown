@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Points to remember for processing streaming timeseries data in order using Kafka and Spark"
+title:  "Points to remember while processing streaming timeseries data in order using Kafka and Spark"
 date:   2019-1-26
 category: Spark
 tags: [spark,kafka,tips]
