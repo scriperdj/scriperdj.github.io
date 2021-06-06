@@ -5,9 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
   <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
-  <title>Read JioMags magazines and watch JioCinema movies on desktop</title>
+  <title>It’s time to dich Apache Spark and love Dask</title>
   <link rel="shortcut icon" href="favicon.ico">
-  <meta name="description" content="Benefits of Jio does not stop with free data &amp; voice calls. Its the Apps likes JioTV, JioMags and JioCinema that makes   it awesome and full fledged ente...">
+  <meta name="description" content="After a long time, I couldn’t stop myself from writing this blog. This is not about comparing two of these frameworks but if you are interested in that, Dask...">
   <!-- Google Font-->
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,300,100italic,100,400italic,500,500italic,700,900,900italic,700italic%7COswald:400,300,700' rel='stylesheet' type='text/css'>
   <!-- Design Style -->
@@ -76,40 +76,45 @@
       <div class="blog-main">
         <div class="blog-left">
           <div class="blog-title blog-details-title">
-            <h2>Read JioMags magazines and watch JioCinema movies on desktop</h2>
-            <div class="breadcrumbs"><a href="/index.html?page=about">Home</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/blog">Blog</a>&nbsp;&nbsp;/&nbsp;&nbsp;Read JioMags magazines and watch JioCinema movies on desktop</div>
-            <span class="post-details ">Tuesday &nbsp;/&nbsp; 21 February 2017 &nbsp;/&nbsp; <a href="#">Technology</a></span>
+            <h2>It’s time to dich Apache Spark and love Dask</h2>
+            <div class="breadcrumbs"><a href="/index.html?page=about">Home</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/blog">Blog</a>&nbsp;&nbsp;/&nbsp;&nbsp;It’s time to dich Apache Spark and love Dask</div>
+            <span class="post-details ">Saturday &nbsp;/&nbsp; 05 June 2021 &nbsp;/&nbsp; <a href="#">Spark</a></span>
           </div>
-          <p>Benefits of Jio does not stop with free data &amp; voice calls. Its the Apps likes JioTV, JioMags and JioCinema that makes
-   it awesome and full fledged entertainer. But we don’t always prefer mobile to read magazines &amp; watch movies. Wouldn’t it be great if we could install JioMags &amp; JioCinema on desktop/pc? Well, in this post I shall show you how.</p>
+          <p>After a long time, I couldn’t stop myself from writing this blog. This is not about comparing two of these frameworks but if you are interested in that, Dask is humble enough to include that in their <a href="https://docs.dask.org/en/latest/spark.html">official documentation</a> as well.  Am just sharing personal opinion from building applications using both of these frameworks.
+<img src="/images/posts/spark_dask.jpg" alt="spark_dask" /></p>
+<h5 id="spark-is-great-but">Spark is great, but…</h5>
+<p>At Quartic.ai, we have built multiple jobs using Apache Spark that does ingress, ETL, score models, etc for different kinds of data which are of both streaming &amp; batch nature. Spark’s rich set of APIs would make your job easy if you have everything as dataframes &amp; RDDs spread across multiple nodes in cluster. But the problem lies in building the required dataframes just so we can make use of the APIs provided by Spark. This is the time to call</p>
 
-<p><img src="/images/posts/mags.png" alt="Read JioMags" height="500px" width="700px" /></p>
+<p><img src="/images/posts/avengers.jpg" alt="Dataengineers assemble" /></p>
 
-<h5 id="prerequisite">Prerequisite</h5>
+<p>We have data streaming at high frequency from multiple IoT sensors. Now imagine building pipeline to serve thousands of machine learning models on top of this data using using Apache Spark. Here is a nice <a href="https://databricks.com/blog/2020/05/19/manage-and-scale-machine-learning-models-for-iot-devices.html">blog by Conor Murphy</a> where he explains about training &amp; deploying multiple models at scale. This is great, but in practice we don’t just deploy one model per device. There can be multiple models for one sensor. And there are also instances where prediction from one model is feature to bunch of other models. Generating streaming datasets for this usecase without introducing skewness to your pipelines requires you to carefully choose the partitioning strategy (whether to use device-id, model-id or something else as partition key to kafka topics).</p>
 
-<p>This process of installing Android apps requires Google chrome to be present on the desktop. This can be used to install any Android apps on desktop however not all apps might work (JioTV doesn’t work).</p>
+<h5 id="did-it-work-well">Did it work? well…</h5>
 
-<h5 id="installation">Installation</h5>
+<p>After undergoing all trouble of building pipelines that performs cleanups, ETLs, denormalizations on data we realized we can’t scale beyond a limit without scaling the cluster if we don’t want to compromise on batch intervals(which was set to 30sec). And the max no. of models we could deploy in our cluster was also surprisingly small. The max we could serve on a cluster with 24 cores was about 600 models.</p>
 
-<ul>
-  <li>Add the extension named <a href="https://chrome.google.com/webstore/detail/arc-welder/emfinbmielocnlhgmfkkmkngdoccbadn" target="_blank">ARC Welder</a> to Google chrome</li>
-  <li>Go to <a href="http://apk-dl.com/" target="_blank">APK downloader</a> and download JioMags app and JioCinema app by giving below urls in the search box.
-    <ul>
-      <li>JioMags - https://play.google.com/store/apps/details?id=com.jio.media.jiomags</li>
-      <li>JioCinema - https://play.google.com/store/apps/details?id=com.jio.media.ondemand</li>
-    </ul>
-  </li>
-  <li>Now go to Google chrome apps page chrome://apps/ and open ARC Welder.
-    <ul>
-      <li><img src="/images/posts/chome-home.png" alt="Chrome" height="100px" width="300px" /></li>
-    </ul>
-  </li>
-  <li>Click on “Add your APK” button and open the downloaded apps one by one and complete the installation. You can click the “Test” button the check the installed app after installation.</li>
-  <li>Once installed, the apps are available on the Chrome apps page and you can open them any time.</li>
-  <li>Now login to JioMags &amp; JioCinema using the User-id &amp; password and enjoy the content on large screen.</li>
-</ul>
+<p>Our problem was not just ML models, there are custom code written by our platform users that had to be executed on streaming data which may be used as features to multiple ML models. So we have to implement ways to resolve such dependencies as well.  This is not straight forward in Spark. We had to create different pipelines &amp; loopbacks to do this which wasn’t really efficient if you are already on resource crunch.</p>
 
-<p><img src="/images/posts/cinema.png" alt="Read JioCinema" height="500px" width="700px" /></p>
+<p><img src="/images/posts/influx_pipeline.png" alt="pipeline" /></p>
+
+<h5 id="thinking-small">Thinking small</h5>
+
+<p>It became clear that if we can build a DAG ourselves, there is scope of avoiding some redundant work. Spark builds DAGs before executing jobs, but we couldn’t find any high-level APIs that we could use. We had been using a small python library called <a href="https://github.com/yahoo/graphkit">Graphkit</a> for some application before. So we wanted to give it a try without thinking a lot on scalability. Graphkit turned out to be great for our problem of resolving dependencies. 
+ <img src="/images/posts/graphkit.png" alt="graphkit" />
+It works for small applications, toy projects/ POCs, scaling this is a challenge.</p>
+
+<h5 id="meet-the-graphkit-on-steroids-dask">Meet the Graphkit on steroids, Dask</h5>
+
+<p>While brainstorming this approach, my teammate recommended Dask. I always thought it was for processing pandas dataframes at scale which is something that Spark is already good at. But never knew of their other APIs. Dask’s <a href="https://docs.dask.org/en/latest/delayed.html">Delayed API</a> is exactly what we wanted. Not only it allowed us to build the required DAG using low level APIs, the graph can be executed in distributed fashion at scale as well.</p>
+
+<p><img src="/images/posts/dask_graph.png" alt="graphkit" /></p>
+
+<p>The API was quite powerful &amp; we were able to quickly build a solution by clubbing Graphkit &amp; Dask to serve thousands on models on the same 24 core cluster that also has the dependencies resolved dynamically. It was so beautiful to see thousands of nodes getting processed in few seconds.</p>
+
+<h5 id="conclusion">Conclusion</h5>
+
+<p>Like I said in beginning, this isn’t an one-o-one comparison. But if you had read the comparison doc, you know which one to pick when. There are situations in a startup company where sometimes we try to get the job done using the tools we know or heard as we have to reach the market faster. Though this involves implementing workarounds, it may not always be a best solution. At Quartic, we are always on the lookout to improve our platform and we are glad how Dask worked out for us.</p>
+
 
           <div id="comments" class="comments-main">
             
@@ -141,7 +146,7 @@
                 js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=612519132273800";
                 fjs.parentNode.insertBefore(js, fjs);
               }(document, 'script', 'facebook-jssdk'));</script>
-              <div class="fb-comments" data-href="http://sathish.me/technology/2017/02/21/Read-JioMags-magazines-and-watch-JioCinema-movies-on-desktop.html" data-numposts="5"></div> -->
+              <div class="fb-comments" data-href="http://sathish.me/spark/2021/06/05/its-time-to-ditch-apache-spark-and-love-dask.html" data-numposts="5"></div> -->
             
           </div>
         </div>

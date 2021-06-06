@@ -114,9 +114,9 @@
 
 <h5 id="start-all-the-required-services">Start all the required services</h5>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ ~/hadoop/sbin/start-dfs.sh
-$ ~/hadoop/sbin/start-yarn.sh
-$ ~/hbase/bin/start-hbase.sh</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>~/hadoop/sbin/start-dfs.sh
+<span class="nv">$ </span>~/hadoop/sbin/start-yarn.sh
+<span class="nv">$ </span>~/hbase/bin/start-hbase.sh</code></pre></figure>
 
 <p>You can also have all above commands saved in a file <code>start.sh</code> in Home so you could run all services from single bash file.</p>
 
@@ -140,13 +140,13 @@ $ ~/hbase/bin/start-hbase.sh</code></pre></figure>
   <li>Create a fat jar with all the dependencies by following command. (Assuming Maven is already installed.)</li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ mvn package</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>mvn package</code></pre></figure>
 
 <ul>
   <li>Submit the jar using spark-submit script along with the location of params.yml file as argument.</li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ ~/spark/bin/spark-submit --class examples.spark.ImportCsvToHBase --master yarn target/import-csv-to-hbase-1.0-SNAPSHOT-shaded.jar params.yml</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>~/spark/bin/spark-submit <span class="nt">--class</span> examples.spark.ImportCsvToHBase <span class="nt">--master</span> yarn target/import-csv-to-hbase-1.0-SNAPSHOT-shaded.jar params.yml</code></pre></figure>
 
 <ul>
   <li>
@@ -158,7 +158,7 @@ $ ~/hbase/bin/start-hbase.sh</code></pre></figure>
   </li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ ~/hadoop/bin/yarn logs -applicationId application_1506253750715_0008</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>~/hadoop/bin/yarn logs <span class="nt">-applicationId</span> application_1506253750715_0008</code></pre></figure>
 
 
           <div id="comments" class="comments-main">
@@ -191,7 +191,7 @@ $ ~/hbase/bin/start-hbase.sh</code></pre></figure>
                 js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=612519132273800";
                 fjs.parentNode.insertBefore(js, fjs);
               }(document, 'script', 'facebook-jssdk'));</script>
-              <div class="fb-comments" data-href="http://localhost:4000/java/2017/09/24/import-data-from-csv-files-to-hbase-using-spark.html" data-numposts="5"></div> -->
+              <div class="fb-comments" data-href="http://sathish.me/java/2017/09/24/import-data-from-csv-files-to-hbase-using-spark.html" data-numposts="5"></div> -->
             
           </div>
         </div>
