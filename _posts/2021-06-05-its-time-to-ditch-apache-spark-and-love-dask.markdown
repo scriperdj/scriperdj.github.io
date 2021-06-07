@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "It’s time to dich Apache Spark and love Dask"
+title:  "It’s time to ditch Apache Spark and love Dask"
 date:   2021-6-5
 category: Spark
 tags: [spark,dask,algorithm]
