@@ -97,19 +97,19 @@
 
 <p><strong>Hadoop</strong></p>
 <ul>
-  <li>Download the distribution from <a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/" target="_blank">Apache</a> and extract to home. Rename the folder to <code>hadoop</code>.</li>
-  <li>Modify <code>core-site.xml</code> &amp; <code>hdfs-site.xml</code> as mentioned in <a href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SingleCluster.html#Pseudo-Distributed_Operation" target="_blank">here</a></li>
+  <li>Download the distribution from <a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/" target="_blank">Apache</a> and extract to home. Rename the folder to <code class="language-plaintext highlighter-rouge">hadoop</code>.</li>
+  <li>Modify <code class="language-plaintext highlighter-rouge">core-site.xml</code> &amp; <code class="language-plaintext highlighter-rouge">hdfs-site.xml</code> as mentioned in <a href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SingleCluster.html#Pseudo-Distributed_Operation" target="_blank">here</a></li>
 </ul>
 
 <p><strong>HBase</strong></p>
 <ul>
-  <li>Download distribution from <a href="http://www.apache.org/dyn/closer.cgi/hbase/" target="_blank">Apache</a> and extract to home. Rename the folder to <code>hbase</code>.</li>
-  <li>Modify <code>hbase-site.xml</code> as mentioned in <a href="https://hbase.apache.org/book.html#quickstart" target="_blank">here</a></li>
+  <li>Download distribution from <a href="http://www.apache.org/dyn/closer.cgi/hbase/" target="_blank">Apache</a> and extract to home. Rename the folder to <code class="language-plaintext highlighter-rouge">hbase</code>.</li>
+  <li>Modify <code class="language-plaintext highlighter-rouge">hbase-site.xml</code> as mentioned in <a href="https://hbase.apache.org/book.html#quickstart" target="_blank">here</a></li>
 </ul>
 
 <p><strong>Spark</strong></p>
 <ul>
-  <li>Download zip from <a href="https://spark.apache.org/downloads.html" target="_blank">here</a> &amp; extract to home. Rename the folder to <code>spark</code>.</li>
+  <li>Download zip from <a href="https://spark.apache.org/downloads.html" target="_blank">here</a> &amp; extract to home. Rename the folder to <code class="language-plaintext highlighter-rouge">spark</code>.</li>
 </ul>
 
 <h5 id="start-all-the-required-services">Start all the required services</h5>
@@ -118,7 +118,7 @@
 <span class="nv">$ </span>~/hadoop/sbin/start-yarn.sh
 <span class="nv">$ </span>~/hbase/bin/start-hbase.sh</code></pre></figure>
 
-<p>You can also have all above commands saved in a file <code>start.sh</code> in Home so you could run all services from single bash file.</p>
+<p>You can also have all above commands saved in a file <code class="language-plaintext highlighter-rouge">start.sh</code> in Home so you could run all services from single bash file.</p>
 
 <h5 id="code-walkthrough">Code Walkthrough</h5>
 
@@ -128,7 +128,7 @@
 
 <p>It then broadcasts the row key &amp; value data for the HBase table so the info is available to the worker nodes for processing.</p>
 
-<p>RDD of rows is created from the given CSV file. The data is converted into rows for hbase table based on the schema provided in the <code>params.yml</code> file.</p>
+<p>RDD of rows is created from the given CSV file. The data is converted into rows for hbase table based on the schema provided in the <code class="language-plaintext highlighter-rouge">params.yml</code> file.</p>
 
 <script src="http://gist-it.appspot.com/https://github.com/scriperdj/import-csv-to-hbase-spark/blob/master/src/main/java/examples/spark/ImportCsvToHBase.java?slice=94:122"></script>
 
