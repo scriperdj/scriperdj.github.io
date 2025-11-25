@@ -30,6 +30,10 @@ export const resumeData = {
         "K8s & Kafka Orchestration",
         "Fault-Tolerant Pipelines",
         "Cross-Region Replication",
+        "AI-Native Dev Systems",
+        "LLM Agent Frameworks",
+        "Prompt Engineering",
+        "MLOps Orchestration",
       ],
     },
     {
@@ -88,6 +92,36 @@ export const resumeData = {
       command: "python miracle_morning.py",
     },
   ],
+  experienceHighlights: [
+    {
+      title: "Distributed Industrial AI Platform",
+      icon: "🏭",
+      impact: "Global IoT data processing",
+      description:
+        "Architected hybrid Edge-Fog-Cloud platform processing real-time OT data from manufacturing facilities worldwide using Kubernetes, Kafka, TimescaleDB, and Spark. Designed distributed system achieving low-latency edge analytics with cloud-based historical analysis. Implemented fault-tolerant pipelines with cross-region replication ensuring zero data loss during regional outages. Platform maintained high availability while handling substantial YoY data growth, enabling customers to reduce manufacturing downtime and improve product yield through predictive analytics.",
+    },
+    {
+      title: "ML Pipeline Performance Optimization",
+      icon: "⚡",
+      impact: "Scalable training & deployment",
+      description:
+        "Resolved critical performance bottleneck by migrating from Celery to Apache Airflow with Kubernetes Executor and Spark integration. Legacy system had limited concurrency for model training with lengthy deployment cycles. Implemented dynamic Kubernetes pod scheduling with Spark-based distributed training, achieving dramatic improvements in training throughput, substantially reduced model deployment time, and optimized compute costs through spot instance usage and right-sized resource allocation. Enabled real-time adaptation of predictive models to changing manufacturing conditions.",
+    },
+    {
+      title: "Database Migration Under Pressure",
+      icon: "🔥",
+      impact: "Zero-downtime migration",
+      description:
+        "Resolved severe production crisis where time-series query latencies degraded dramatically, making manufacturing dashboards unusable. Identified that Elasticsearch's inverted index and JVM garbage collection were unsuitable for high-frequency numeric time-series workload. Executed zero-downtime migration to TimescaleDB using phased approach with dual-write strategy, custom Spark-based historical data backfill, and gradual canary deployment. Achieved substantial query performance improvements, increased write throughput, significantly reduced storage footprint, and eliminated database-induced outages entirely.",
+    },
+    {
+      title: "Dual-Schema Architecture",
+      icon: "🧠",
+      impact: "Optimized read & write workloads",
+      description:
+        "Designed dual-schema database architecture resolving conflict between high write throughput from thousands of edge connectors and low read latency for real-time dashboards. Single schema couldn't efficiently serve both workloads. Solution separated data into write-optimized tables (minimal indexing, columnar storage, partitioned by edge connector) and read-optimized tables (aggressive indexing, continuous aggregates, partitioned by sensor), connected via Spark streaming ETL with exactly-once semantics. Achieved substantial write throughput improvements, dramatically reduced query latency, enabled scaling to significantly more concurrent users, and reduced anomaly detection time critical for preventing costly pharmaceutical batch losses.",
+    },
+  ],
   technicalExpertise: {
     orchestration: ["Apache Airflow", "Apache Kafka", "Celery", "Luigi", "Redis"],
     bigData: ["Apache Spark (PySpark)", "Apache Iceberg", "Spark Streaming"],
@@ -110,7 +144,7 @@ export const resumeData = {
         "Pioneered AI-assisted development using Claude Code and Cursor agents, reducing cycle time while maintaining production quality",
         "Led migration to modern stack (Apache Iceberg, TimescaleDB, CubeJS) and resolved critical distributed system bottlenecks",
         "Drive technical strategy and R&D for AI-powered manufacturing platform while supporting business growth and compliance",
-        "Scale and lead distributed engineering teams across backend, frontend, and DevOps, fostering an ownership culture",
+        "Scale and lead distributed engineering teams (30+) across backend, frontend, and DevOps, fostering an ownership culture",
       ],
     },
     {
@@ -134,6 +168,7 @@ export const resumeData = {
         "Developed essential platform features for backend and frontend frameworks",
         "Built data-engineering pipelines, ETL jobs, and package abstraction layers",
         "Contributed to deployment and testing infrastructure",
+        "Established foundation for scalable, production-ready systems",
       ],
     },
     {
@@ -143,7 +178,8 @@ export const resumeData = {
       description: "Engineered data processing platform for digital marketing analytics.",
       achievements: [
         "Architected and developed distributed platform for processing high-volume clickstream data",
-        "Built end-to-end data ingestion pipelines from multiple sources to support large-scale data-driven decision making",
+        "Built data ingestion pipelines from multiple sources to support large-scale data-driven decision making",
+        "Designed and implemented microservices architecture for scalability",
       ],
     },
     {
@@ -153,6 +189,7 @@ export const resumeData = {
       description: "Developed enterprise applications for insurance and banking domains.",
       achievements: [
         "Migrated line-of-business applications from legacy to modern platforms",
+        "Analyzed application workflows and business requirements for successful transitions",
         "Delivered transaction reporting and portfolio management solutions",
       ],
     },
@@ -164,6 +201,7 @@ export const resumeData = {
       achievements: [
         "Started as an intern during college and transitioned to full-time Web Developer role",
         "Developed and maintained portfolio and e-commerce websites using PHP and CMS technologies",
+        "Managed end-to-end web projects including design implementation and server maintenance",
       ],
     },
   ],

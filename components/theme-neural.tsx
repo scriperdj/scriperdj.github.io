@@ -32,6 +32,7 @@ export function NeuralTheme({
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL")
   const [currentPage, setCurrentPage] = useState(1)
   const [booted, setBooted] = useState(false)
+  const [selectedHighlight, setSelectedHighlight] = useState<number | null>(null)
   const ITEMS_PER_PAGE = 2 // Low number to demonstrate pagination with few posts
 
   const [traitIndex, setTraitIndex] = useState(0)
@@ -89,11 +90,10 @@ export function NeuralTheme({
   const TabButton = ({ id, label, icon: Icon, href }: any) => (
     <Link
       href={href}
-      className={`flex items-center gap-2 px-4 py-2 text-sm font-mono border transition-all duration-300 cursor-pointer ${
-        activeTab === id
+      className={`flex items-center gap-2 px-4 py-2 text-sm font-mono border transition-all duration-300 cursor-pointer ${activeTab === id
           ? "border-green-500 text-green-500 bg-green-500/10 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
           : "border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700"
-      }`}
+        }`}
     >
       <Icon size={14} />
       <span>{label}</span>
@@ -153,9 +153,8 @@ export function NeuralTheme({
       <main className="pt-20 px-6 max-w-5xl mx-auto">
         {/* Header Area */}
         <header
-          className={`border-l-2 border-green-500 pl-6 relative transition-all duration-500 ease-in-out overflow-hidden ${
-            selectedBlog !== null ? "max-h-0 opacity-0 mb-0 py-0" : "max-h-[500px] opacity-100 mb-16 py-2"
-          }`}
+          className={`border-l-2 border-green-500 pl-6 relative transition-all duration-500 ease-in-out overflow-hidden ${selectedBlog !== null ? "max-h-0 opacity-0 mb-0 py-0" : "max-h-[500px] opacity-100 mb-16 py-2"
+            }`}
         >
           <div className="absolute -left-[5px] top-0 w-2 h-2 bg-green-500 rounded-full"></div>
           <div className="absolute -left-[5px] bottom-0 w-2 h-2 bg-green-500 rounded-full"></div>
@@ -252,31 +251,27 @@ export function NeuralTheme({
                 <div className="absolute top-0 left-0 w-full h-1 bg-green-500/50"></div>
                 <div className="absolute -right-12 -top-12 w-48 h-48 bg-green-500/10 blur-3xl rounded-full group-hover:bg-green-500/20 transition-all duration-1000"></div>
 
-                <h3 className="text-white mb-4 font-bold">LATEST_METRICS</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-black/50 p-3 border border-zinc-800">
-                    <div className="text-zinc-500 text-[10px] mb-1">SYSTEM_UPTIME</div>
-                    <div className="text-green-400 font-mono text-xl">{resumeData.metrics?.uptime || "99.99%"}</div>
-                  </div>
-                  <div className="bg-black/50 p-3 border border-zinc-800">
-                    <div className="text-zinc-500 text-[10px] mb-1">ARR_IMPACT</div>
-                    <div className="text-green-400 font-mono text-xl">{resumeData.metrics?.arrImpact || "$1.5M+"}</div>
-                  </div>
-                  <div className="bg-black/50 p-3 border border-zinc-800">
-                    <div className="text-zinc-500 text-[10px] mb-1">OPS_COST</div>
-                    <div className="text-green-400 font-mono text-xl">{resumeData.metrics?.opsCost || "-40%"}</div>
-                  </div>
-                  <div className="bg-black/50 p-3 border border-zinc-800">
-                    <div className="text-zinc-500 text-[10px] mb-1">TEAM_SCALE</div>
-                    <div className="text-green-400 font-mono text-xl">{resumeData.metrics?.teamScale || "30+"}</div>
-                  </div>
+                <h3 className="text-white mb-4 font-bold">MILESTONE_COMMITS</h3>
+                <div className="space-y-2">
+                  {resumeData.experienceHighlights?.map((highlight, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setSelectedHighlight(i)}
+                      className="w-full flex items-baseline justify-between gap-4 py-2 border-b border-zinc-800/50 last:border-0 hover:border-green-500/30 hover:bg-green-500/5 transition-colors cursor-pointer text-left"
+                    >
+                      <span className="text-zinc-400 text-sm flex-1">{highlight.title}</span>
+                      <span className="text-green-500 text-xs font-mono shrink-0 whitespace-nowrap">
+                        {highlight.impact}
+                      </span>
+                    </button>
+                  ))}
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-zinc-800">
                   <p className="text-xs text-zinc-500 mb-2">BACKGROUND_PROCESSES (htop)</p>
                   {/* Replaced simple text ticker with htop-style table */}
-                  <div className="font-mono text-[10px] md:text-xs overflow-x-auto bg-black/80 border border-zinc-800 rounded p-2">
-                    <table className="w-full text-left border-collapse">
+                  <div className="font-mono text-[10px] md:text-xs bg-black/80 border border-zinc-800 rounded p-2">
+                    <table className="w-full text-left border-collapse min-w-0">
                       <thead>
                         <tr className="bg-zinc-800 text-black">
                           <th className="px-1 py-0.5 bg-green-500 text-black">PID</th>
@@ -296,7 +291,7 @@ export function NeuralTheme({
                             <td className="px-1 py-0.5 text-zinc-300">{process.cpu}</td>
                             <td className="px-1 py-0.5 text-zinc-300">{process.mem}</td>
                             <td className="px-1 py-0.5 text-zinc-500">{process.time}</td>
-                            <td className="px-1 py-0.5 text-white whitespace-nowrap">{process.command}</td>
+                            <td className="px-1 py-0.5 text-white break-all">{process.command}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -386,7 +381,7 @@ export function NeuralTheme({
                       )}
                       <p className="text-zinc-500 text-xs font-mono">{t.role}</p>
                     </div>
-                    <div className="text-[10px] text-zinc-600 font-mono px-2 py-1 border border-zinc-800 bg-zinc-900">
+                    <div className="text-[10px] text-green-500/50 font-mono px-2 py-1 border border-zinc-800 bg-zinc-900">
                       {t.context}
                     </div>
                   </div>
@@ -423,11 +418,10 @@ export function NeuralTheme({
                                 setSelectedCategory(category)
                                 setCurrentPage(1)
                               }}
-                              className={`w-full text-left px-3 py-2 text-xs font-mono transition-all border-l-2 ${
-                                selectedCategory === category
+                              className={`w-full text-left px-3 py-2 text-xs font-mono transition-all border-l-2 ${selectedCategory === category
                                   ? "border-green-500 text-white bg-green-500/10 pl-4"
                                   : "border-transparent text-zinc-500 hover:text-zinc-300 hover:pl-4"
-                              }`}
+                                }`}
                             >
                               {selectedCategory === category && <span className="text-green-500 mr-2">›</span>}
                               {category}
@@ -441,13 +435,12 @@ export function NeuralTheme({
                   <div className="flex-1 space-y-6">
                     {currentBlogs.map((blog) => (
                       <Link
-                        href={`/blog/${
-                          blog.id ||
+                        href={`/blog/${blog.id ||
                           blog.title
                             .toLowerCase()
                             .replace(/[^a-z0-9]+/g, "-")
                             .replace(/^-|-$/g, "")
-                        }`}
+                          }`}
                         key={blog.id}
                         className="block border-b border-zinc-800 pb-6 group hover:border-green-500/50 transition-colors"
                       >
@@ -483,11 +476,10 @@ export function NeuralTheme({
                             <button
                               key={page}
                               onClick={() => setCurrentPage(page)}
-                              className={`w-6 h-6 flex items-center justify-center border ${
-                                currentPage === page
+                              className={`w-6 h-6 flex items-center justify-center border ${currentPage === page
                                   ? "border-green-500 text-green-500 bg-green-500/10"
                                   : "border-zinc-800 hover:border-zinc-600"
-                              }`}
+                                }`}
                             >
                               {page}
                             </button>
@@ -563,6 +555,56 @@ export function NeuralTheme({
           )}
         </div>
       </main>
+
+      {/* Modal for highlight details */}
+      {selectedHighlight !== null && (
+        <div
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={() => setSelectedHighlight(null)}
+        >
+          <div
+            className="bg-zinc-900 border-2 border-green-500 max-w-2xl w-full p-8 relative animate-in slide-in-from-bottom-4 duration-300"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setSelectedHighlight(null)}
+              className="absolute top-4 right-4 text-zinc-500 hover:text-green-500 transition-colors"
+              aria-label="Close"
+            >
+              <span className="text-2xl">×</span>
+            </button>
+
+            {/* Modal content */}
+            <div className="space-y-4">
+              <div className="flex items-start gap-3 border-b border-zinc-800 pb-4">
+                <span className="text-4xl">{resumeData.experienceHighlights[selectedHighlight].icon}</span>
+                <div className="flex-1">
+                  <h3 className="text-white text-xl font-bold mb-2">
+                    {resumeData.experienceHighlights[selectedHighlight].title}
+                  </h3>
+                  <span className="text-green-500 text-sm font-mono">
+                    {resumeData.experienceHighlights[selectedHighlight].impact}
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-zinc-300 leading-relaxed">
+                {resumeData.experienceHighlights[selectedHighlight].description}
+              </p>
+
+              <div className="flex justify-end pt-4">
+                <button
+                  onClick={() => setSelectedHighlight(null)}
+                  className="px-4 py-2 border border-green-500 text-green-500 hover:bg-green-500 hover:text-black transition-colors font-mono text-sm"
+                >
+                  [ESC] CLOSE
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
