@@ -1,6 +1,6 @@
 ---
 title: "Everyone is a Manager Now: The Art of Delegating to AI Agents"
-date: "2025-11-25"
+date: "2025-11-26"
 category: "Technology"
 ---
 
