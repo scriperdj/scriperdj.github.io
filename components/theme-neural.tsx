@@ -1,17 +1,19 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { resumeData } from "@/data/resume"
 import { Terminal, Cpu, Network, ChevronRight, Command, FileText, ChevronLeft, MessageSquare } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 
 interface BlogPost {
-  id: string | number
+  id?: string | number
   title: string
   date: string
   category: string
-  readTime: string
+  readTime?: string
+  summary?: string
   content: string
   link?: string
 }
@@ -22,12 +24,14 @@ interface NeuralThemeProps {
   initialSelectedBlogId?: string
 }
 
-export function NeuralTheme({
+function NeuralThemeContent({
   initialBlogs = [],
   initialActiveTab = "overview",
   initialSelectedBlogId = undefined,
 }: NeuralThemeProps) {
-  const [activeTab, setActiveTab] = useState(initialActiveTab)
+  const searchParams = useSearchParams()
+  const tab = searchParams.get("tab")
+  const [activeTab, setActiveTab] = useState(tab || initialActiveTab)
   const [selectedBlog, setSelectedBlog] = useState<string | null>(initialSelectedBlogId || null)
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL")
   const [currentPage, setCurrentPage] = useState(1)
@@ -66,9 +70,11 @@ export function NeuralTheme({
   }, [activeTab])
 
   useEffect(() => {
-    if (initialActiveTab) setActiveTab(initialActiveTab)
+    if (tab) setActiveTab(tab)
+    else if (initialActiveTab) setActiveTab(initialActiveTab)
+
     if (initialSelectedBlogId) setSelectedBlog(initialSelectedBlogId)
-  }, [initialActiveTab, initialSelectedBlogId])
+  }, [tab, initialActiveTab, initialSelectedBlogId])
 
   const allBlogs = initialBlogs.length > 0 ? initialBlogs : resumeData.blogs || []
   const filteredBlogs =
@@ -91,8 +97,8 @@ export function NeuralTheme({
     <Link
       href={href}
       className={`flex items-center gap-2 px-4 py-2 text-sm font-mono border transition-all duration-300 cursor-pointer ${activeTab === id
-          ? "border-green-500 text-green-500 bg-green-500/10 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
-          : "border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700"
+        ? "border-green-500 text-green-500 bg-green-500/10 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
+        : "border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700"
         }`}
     >
       <Icon size={14} />
@@ -218,7 +224,7 @@ export function NeuralTheme({
           <TabButton id="overview" label="./OVERVIEW" icon={Command} href="/" />
           <TabButton id="stack" label="./TECH_STACK" icon={Cpu} href="/tech-stack" />
           <TabButton id="experience" label="./LOGS" icon={Network} href="/logs" />
-          <TabButton id="blogs" label="./BLOG_POSTS" icon={FileText} href="/blog" />
+          <TabButton id="blogs" label="./BLOG_POSTS" icon={FileText} href="/blogs" />
           <TabButton id="endorsements" label="./ENDORSEMENTS" icon={MessageSquare} href="/endorsements" />
         </div>
 
@@ -419,8 +425,8 @@ export function NeuralTheme({
                                 setCurrentPage(1)
                               }}
                               className={`w-full text-left px-3 py-2 text-xs font-mono transition-all border-l-2 ${selectedCategory === category
-                                  ? "border-green-500 text-white bg-green-500/10 pl-4"
-                                  : "border-transparent text-zinc-500 hover:text-zinc-300 hover:pl-4"
+                                ? "border-green-500 text-white bg-green-500/10 pl-4"
+                                : "border-transparent text-zinc-500 hover:text-zinc-300 hover:pl-4"
                                 }`}
                             >
                               {selectedCategory === category && <span className="text-green-500 mr-2">›</span>}
@@ -435,7 +441,7 @@ export function NeuralTheme({
                   <div className="flex-1 space-y-6">
                     {currentBlogs.map((blog) => (
                       <Link
-                        href={`/blog/${blog.id ||
+                        href={`/blogs/${blog.id ||
                           blog.title
                             .toLowerCase()
                             .replace(/[^a-z0-9]+/g, "-")
@@ -477,8 +483,8 @@ export function NeuralTheme({
                               key={page}
                               onClick={() => setCurrentPage(page)}
                               className={`w-6 h-6 flex items-center justify-center border ${currentPage === page
-                                  ? "border-green-500 text-green-500 bg-green-500/10"
-                                  : "border-zinc-800 hover:border-zinc-600"
+                                ? "border-green-500 text-green-500 bg-green-500/10"
+                                : "border-zinc-800 hover:border-zinc-600"
                                 }`}
                             >
                               {page}
@@ -508,11 +514,7 @@ export function NeuralTheme({
                       <article className="max-w-3xl mx-auto">
                         <div className="mb-8 border-b border-zinc-800 pb-8">
                           <Link
-                            href="/?tab=blogs"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              setSelectedBlog(null)
-                            }}
+                            href="/blogs"
                             className="inline-flex items-center gap-2 text-green-500 text-sm font-mono mb-6 hover:underline cursor-pointer"
                           >
                             <ChevronLeft size={14} />
@@ -524,7 +526,7 @@ export function NeuralTheme({
                               {blog.category}
                             </span>
                             <span className="border border-zinc-800 px-2 py-1 rounded bg-zinc-900">
-                              {blog.readTime || "5 min read"}
+                              {(blog as any).readTime || "5 min read"}
                             </span>
                             <span className="border border-zinc-800 px-2 py-1 rounded bg-zinc-900">{blog.date}</span>
                           </div>
@@ -540,7 +542,7 @@ export function NeuralTheme({
                         {/* Footer Navigation */}
                         <div className="mt-16 pt-8 border-t border-zinc-800 flex justify-between">
                           <Link
-                            href="/?tab=blogs"
+                            href="/blogs"
                             className="text-zinc-500 hover:text-green-500 text-sm font-mono transition-colors"
                           >
                             &lt;&lt; BACK_TO_INDEX
@@ -606,5 +608,13 @@ export function NeuralTheme({
         </div>
       )}
     </div>
+  )
+}
+
+export function NeuralTheme(props: NeuralThemeProps) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <NeuralThemeContent {...props} />
+    </Suspense>
   )
 }

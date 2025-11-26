@@ -14,6 +14,16 @@ function ensureDirectoryExists() {
   }
 }
 
+function extractSummary(contentHtml: string): string {
+  // Remove HTML tags
+  const text = contentHtml.replace(/<[^>]*>?/gm, "")
+  // Replace multiple spaces/newlines with single space
+  const cleanText = text.replace(/\s+/g, " ").trim()
+  const words = cleanText.split(" ")
+  if (words.length <= 100) return cleanText
+  return words.slice(0, 100).join(" ") + "..."
+}
+
 export async function getSortedPostsData(): Promise<BlogPost[]> {
   // Ensure the directory exists so we don't crash on first run
   ensureDirectoryExists()
@@ -42,7 +52,7 @@ export async function getSortedPostsData(): Promise<BlogPost[]> {
         title: matterResult.data.title || "Untitled Post",
         date: matterResult.data.date || new Date().toISOString(),
         category: matterResult.data.category || "General",
-        summary: matterResult.data.excerpt || matterResult.data.summary || "No summary available.",
+        summary: matterResult.data.excerpt || matterResult.data.summary || extractSummary(contentHtml),
         content: contentHtml,
       } as BlogPost
     }),
@@ -86,7 +96,7 @@ export async function getPostData(id: string) {
     title: matterResult.data.title || "Untitled Post",
     date: matterResult.data.date || new Date().toISOString(),
     category: matterResult.data.category || "General",
-    summary: matterResult.data.excerpt || matterResult.data.summary || "No summary available.",
+    summary: matterResult.data.excerpt || matterResult.data.summary || extractSummary(contentHtml),
     ...matterResult.data,
   }
 }
