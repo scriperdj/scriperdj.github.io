@@ -14,17 +14,15 @@ In this article, I want to share my experience transitioning from a people manag
 
 Despite the hype, many developers find themselves unable to effectively offload work to AI. From the interactions I had with different engineers, I realized that many find it hard to get anything useful done by agents without handholding or taking-over after few iterations. 
 
-Sure, it's easy to use cursor, claude, and the new Antigravity in creating new projects from scratch or make changes to existing code with auto-completion, execute some commands in terminal, etc. But every developer knows that they need to do a lot more in order to get the changes to completion state. 
+Sure, it's easy to use cursor, claude, and the new Antigravity for tasks like fixing a bug, creating new projects from scratch, making changes to existing code with auto-completion, executing some commands in terminal, etc. But every developer knows that they need to do a lot more in order to orchestrate bridge the gap, getting the tasks to completion state. 
 
-Below are some of the problems and how to address them so your agents can be more effective.
+The following sections outline key challenges in agent delegation and practical solutions to enhance their autonomy
 
-#### Multi-repo changes:
-As your codebase grows, fixing issues might require changes in multiple repositories, frontend, backend, etc. It's not easy to get the changes to completion state without proper context and setup.
+### 1. Break Down Silos with Multi-Repo Workspaces
 
-Solution:
+> **The Friction:** As your codebase grows, fixing issues often requires touching multiple repositories (frontend, backend, infra). Agents restricted to a single repo lack the context to understand these dependencies, leading to incomplete fixes.
 
-##### Multi-repo workspace setup
-Cursor & Antigravity supports multi-repo workspace setup. You can create a workspace file like below to include multiple repositories.
+**The Fix:** Create a unified workspace. Cursor & Antigravity support multi-repo workspace setups via a simple JSON configuration. This allows the agent to perform semantic search across your entire stack. You can create a workspace file like below to include multiple repositories.
 
 ```json
 {
@@ -44,13 +42,11 @@ Cursor & Antigravity supports multi-repo workspace setup. You can create a works
 
 This setup indexes all the files in the specified folders and provides context to agents helping them to understand dependencies and make required changes across repos. So next time you assign task to agent, it can plan and make required changes in multiple repos by performing semantic search instead of just grepping through files.
 
-#### Internal processes & platform knowledge:
-Each platform has its own set of processes, tools and workflows. The technical know-how about how to troubleshoot, test and deploy is not provided to agents.
+### 2. Codify Your Institutional Knowledge
 
-Solution:
+> **The Friction:** Each platform has its own set of processes, tools, and workflows. The technical know-how about how to troubleshoot, test, and deploy is often "tribal knowledge" not accessible to agents.
 
-##### Shared knowledge of rules and workflows
-Cursor & Antigravity supports sharing of knowledge of rules and workflows. You can create global or workspace specific knowledge that can you avoid repeating yourself.
+**The Fix:** Share your knowledge of rules and workflows. Cursor & Antigravity support sharing context via global or workspace-specific rules. This prevents you from having to repeat the same instructions for every task.
 
 Below is example of global rule we use in our organization.
 
@@ -65,7 +61,7 @@ Below is example of global rule we use in our organization.
 ```
 ![Rules and workflows](/images/posts/ag-rules.png)
 
-You can add workspace specific commands for starting dev server, running tests, troubleshooting, etc. After creating any workflow, you can test it by starting new agent session and running the workflow. I found the best place to look for such rules & workflows is from your previous interactions with agents. Extract the chats and ask an agent to identify the rules and workflows that can be added globally or workspace specific. Below is a prompt that can help you do that.
+You can also add workspace specific commands for starting dev server, running tests, troubleshooting, etc. After creating any workflow, you can test it by starting new agent session and running the workflow. I found the best place to look for such rules & workflows is from your previous interactions with agents. Extract the chats and ask an agent to identify the rules and workflows that can be added globally or workspace specific. Below is a prompt that can help you do that.
 
 ```md
 You are extracting reusable rules and command patterns from past chat transcripts.
@@ -102,14 +98,16 @@ STYLE
 - Never hardcode volatile values in rules
 ```
 
-#### Cold Feet & Trust Issues:
-Before agents, I used to remember every detail of codebase exactly why I wrote it in certain way. Now, it's hard to have a control over the changes made by agents because of the volume of code that it's capable of generating. 
+### 3. Build Trust with Automated Guardrails
 
-Solutions:
+> **The Friction:** Before agents, I used to remember every detail of the codebase and exactly why I wrote it in a certain way. Now, it's hard to have control over the changes made by agents because of the sheer volume of code they are capable of generating.
 
-- Use git to track changes and revert back to previous state if needed.
-- Add guardrails like `pre-commit` hooks to perform basic checks like coding style, security, unit-testcases and test-coverage before allowing agents to commit changes.
-- Maintain project level `.cursorignore` file and `deny commands list` to control agents.
+**The Fix:** Implement automated checks. Instead of manually reviewing every line, rely on tools to enforce standards:
+
+- **Version Control:** Use git to track changes and revert back to previous state if needed.
+- **Ignore Lists:** Maintain project level `.cursorignore` file and `deny commands list` to control agents.
+- **AI Code Review:** Configure AI code reviewing tools like `CodeRabbit`, `BugBot` to perform reviews on the code generated by AI agents and add it to your CI checklist. 
+- **Pre-commit Hooks:** Add guardrails like `pre-commit` hooks to perform basic checks like coding style, security, unit-testcases and test-coverage before allowing agents to commit changes. Below is a sample pre-commit config for python projects.
 
 ```yaml
 repos:
@@ -167,15 +165,15 @@ repos:
        pass_filenames: false
 ```
 
-Apart from this, you can configure AI code reviewing tools like `CodeRabbit`, `BugBot` to perform reviews on the code generated by AI agents and add it to your CI checklist. 
 
-#### The Feedback Loop
-I observed that developers tend to takeover when performing functional and integration testing because of the complexity of setup, environment and dependencies. This adds friction to the workflow and slows down the development process that involves copying changes made by agents, testing and copying feedback to agents iteratively.
 
-Solution:
+### 4. Close the Loop with Autonomous Tools
 
-##### Browser, terminal and MCP
-The best way to avoid this is to make agents perform these tests autonomously by setting up required tools including browser access, MCP and cli with least privilege access for agents. So when agents make a mistake, they can correct it themselves.
+> **The Friction:** Developers often take over when performing functional and integration testing because of the complexity of setup, environment, and dependencies. This breaks the feedback loop and slows down the process of iteratively refining the agent's work.
+
+**The Fix:** Empower agents with tools. The best way to avoid this is to make agents perform these tests autonomously by setting up required tools including browser access, MCP, and CLI with least privilege access. This allows agents to identify mistakes and correct them without human intervention.
+
+![MCP ](/images/posts/ag-mcp.png)
 
 ### Conclusion: From Micro-Manager to AI Agents Manager
 
@@ -188,4 +186,4 @@ To stop micro-managing your AI agents:
 3.  **Trust but Verify**: Implement automated guardrails (pre-commit hooks, CI checks) so you don't have to manually review every character.
 4.  **Empower Autonomy**: Give them the tools (CLI, MCP, Browser) to test and validate their own work.
 
-I hope this article was helpful. I would love to learn about things you have done to delegate tasks to your AI coding agents.
+I hope this article was helpful. The truth is, we are all still figuring out this new way of working. If you have other tips for managing AI agents effectively, I'd love to learn from them in the comments.
