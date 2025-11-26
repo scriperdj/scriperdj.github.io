@@ -4,7 +4,7 @@ date: "2025-11-26"
 category: "Technology"
 ---
 
-Last week when I watched [Google's Antigravity promo video](https://youtu.be/SVCBA-pBgt0?si=e_EiskKEybW2Qgf2), I was struck by the statement, "Everyone is a manager." made me realize how true the statement was in current era of Agents. Any new role requires new skillsets and mindset. Agents are becomming more and more capable everyday but are we ready to accept the fact that we are all managers now and know how to delegate tasks to them?
+Last week when I watched [Google's Antigravity promo video](https://youtu.be/SVCBA-pBgt0?si=e_EiskKEybW2Qgf2), I was struck by the statement, "Everyone is a manager." It made me realize how true the statement was in the current era of Agents. Any new role requires new skillsets and mindset. Agents are becoming more and more capable everyday but are we ready to accept the fact that we are all managers now and know how to delegate tasks to them?
 
 In this article, I want to share my experience transitioning from a people manager to an AI agents manager, and how to avoid the trap of becoming a micro-manager who hand-holds agents through every single task.
 
@@ -12,9 +12,9 @@ In this article, I want to share my experience transitioning from a people manag
 
 ### Why Developers Struggle to Delegate
 
-Despite the hype, many developers find themselves unable to effectively offload work to AI.From the interactions I had with different engineers, I realized that many find it hard to get anything useful done by agents without handholding or taking-over after few iterations. 
+Despite the hype, many developers find themselves unable to effectively offload work to AI. From the interactions I had with different engineers, I realized that many find it hard to get anything useful done by agents without handholding or taking-over after few iterations. 
 
-Sure, it's easy to use cursor, claude, and the new Antigravity in creating new projects from scratch or make changes to existing code with auto-completion, execute some commands in terminal, etc. But every developer knows that they need to do lot more in order to get the changes to completion state. 
+Sure, it's easy to use cursor, claude, and the new Antigravity in creating new projects from scratch or make changes to existing code with auto-completion, execute some commands in terminal, etc. But every developer knows that they need to do a lot more in order to get the changes to completion state. 
 
 Below are some of the problems and how to address them so your agents can be more effective.
 
@@ -42,7 +42,7 @@ Cursor & Antigravity supports multi-repo workspace setup. You can create a works
 }
 ```
 
-This setup indexes all the files in the specified folders and provides context to agents helping them to understand dependencies and make required changes across repos. So noext time you assign task to agent, it can plan and make required changes in multiple repos.
+This setup indexes all the files in the specified folders and provides context to agents helping them to understand dependencies and make required changes across repos. So next time you assign task to agent, it can plan and make required changes in multiple repos by performing semantic search instead of just grepping through files.
 
 #### Internal processes & platform knowledge:
 Each platform has its own set of processes, tools and workflows. The technical know-how about how to troubleshoot, test and deploy is not provided to agents.
@@ -65,7 +65,7 @@ Below is example of global rule we use in our organization.
 ```
 ![Rules and workflows](/images/posts/ag-rules.png)
 
-You can add workspace specific workflows for starting dev server, running tests, troubleshooting, etc. After creating any workflow, you can test it by starting new agent session and running the workflow. I found the best place to look for such rules & workflows is from your previous interactions with agents. Extract the chats and ask aan agent to identify the rules and workflows that can be added globally or workspace specific. Below is a prompt that can help you do that.
+You can add workspace specific commands for starting dev server, running tests, troubleshooting, etc. After creating any workflow, you can test it by starting new agent session and running the workflow. I found the best place to look for such rules & workflows is from your previous interactions with agents. Extract the chats and ask an agent to identify the rules and workflows that can be added globally or workspace specific. Below is a prompt that can help you do that.
 
 ```md
 You are extracting reusable rules and command patterns from past chat transcripts.
@@ -103,12 +103,12 @@ STYLE
 ```
 
 #### Cold Feet & Trust Issues:
-Before agents, I used to remember every detail of codebase exactly why I wrote it in certain way. Now, its hard to have a control over the changes made by agents because of the volume of code that its capable of generating. 
+Before agents, I used to remember every detail of codebase exactly why I wrote it in certain way. Now, it's hard to have a control over the changes made by agents because of the volume of code that it's capable of generating. 
 
 Solutions:
 
 - Use git to track changes and revert back to previous state if needed.
-- Add gaurdrails like `pre-commit` hooks to perform basic checks like coding style, security, unit-testcases and test-coverage before allowing agents to commit changes.
+- Add guardrails like `pre-commit` hooks to perform basic checks like coding style, security, unit-testcases and test-coverage before allowing agents to commit changes.
 - Maintain project level `.cursorignore` file and `deny commands list` to control agents.
 
 ```yaml
@@ -175,5 +175,17 @@ I observed that developers tend to takeover when performing functional and integ
 Solution:
 
 ##### Browser, terminal and MCP
-The best way to avoid this to make agents perform these tests autonomously by setting up required tools including browser access, MCP and cli with least privilege access for agents. So when agents make a mistake, they can correct it themselves.
+The best way to avoid this is to make agents perform these tests autonomously by setting up required tools including browser access, MCP and cli with least privilege access for agents. So when agents make a mistake, they can correct it themselves.
 
+### Conclusion: From Micro-Manager to AI Agents Manager
+
+Delegating to AI agents is a skill that requires a shift in mindset. Instead of treating them like junior developers who need constant supervision, treat them like capable team members who need clear context, knowledge, access, defined boundaries, and the right tools to succeed.
+
+To stop micro-managing your AI agents:
+
+1.  **Provide Context**: Use multi-repo workspaces to give them the full picture.
+2.  **Document Processes**: Codify your knowledge into rules and workflows they can follow.
+3.  **Trust but Verify**: Implement automated guardrails (pre-commit hooks, CI checks) so you don't have to manually review every character.
+4.  **Empower Autonomy**: Give them the tools (CLI, MCP, Browser) to test and validate their own work.
+
+I hope this article was helpful. I would love to learn about things you have done to delegate tasks to your AI coding agents.
