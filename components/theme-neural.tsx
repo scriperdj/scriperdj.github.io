@@ -239,19 +239,41 @@ function NeuralThemeContent({
                 <p className="text-zinc-400 leading-relaxed mb-8">{resumeData.philosophy}</p>
 
                 <h3 className="text-green-500 mb-6 flex items-center gap-2">
-                  <ChevronRight size={16} /> CORE_MODULES
+                  <ChevronRight size={16} /> BACKGROUND_PROCESSES (htop)
                 </h3>
-                <ul className="space-y-3 text-zinc-400 text-sm">
-                  {resumeData.coreCompetencies
-                    .flatMap((c) => c.skills)
-                    .slice(0, 6)
-                    .map((skill, i) => (
-                      <li key={i} className="flex items-center gap-3">
-                        <span className="text-zinc-700">0{i + 1}</span>
-                        <span>{skill}</span>
-                      </li>
-                    ))}
-                </ul>
+                <div className="font-mono text-[10px] md:text-xs bg-black/80 border border-zinc-800 rounded p-2">
+                  <table className="w-full text-left border-collapse min-w-0">
+                    <thead>
+                      <tr className="bg-zinc-800 text-black">
+                        <th className="px-1 py-0.5 bg-green-500 text-black">PID</th>
+                        <th className="px-1 py-0.5 text-green-500 bg-transparent">USER</th>
+                        <th className="px-1 py-0.5 text-green-500 bg-transparent">CPU%</th>
+                        <th className="px-1 py-0.5 text-green-500 bg-transparent">MEM%</th>
+                        <th className="px-1 py-0.5 text-green-500 bg-transparent">TIME+</th>
+                        <th className="px-1 py-0.5 text-green-500 bg-transparent">COMMAND</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {/* @ts-ignore - we know personalTraits is now an array of objects */}
+                      {resumeData.personalTraits.map((process: any, i: number) => (
+                        <tr key={process.pid} className="border-b border-zinc-900/50 hover:bg-zinc-900/50">
+                          <td className="px-1 py-0.5 text-green-300">{process.pid}</td>
+                          <td className="px-1 py-0.5 text-zinc-400">{process.user}</td>
+                          <td className="px-1 py-0.5 text-zinc-300">{process.cpu}</td>
+                          <td className="px-1 py-0.5 text-zinc-300">{process.mem}</td>
+                          <td className="px-1 py-0.5 text-zinc-500">{process.time}</td>
+                          <td className="px-1 py-0.5 text-white break-all">{process.command}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <div className="mt-2 flex gap-2 text-[10px] text-zinc-500">
+                    <span>F1Help</span>
+                    <span>F2Setup</span>
+                    <span>F3Search</span>
+                    <span>F10Quit</span>
+                  </div>
+                </div>
               </div>
               <div className="border border-zinc-800 bg-zinc-900/30 p-6 rounded-sm relative overflow-hidden group">
                 <div className="absolute top-0 left-0 w-full h-1 bg-green-500/50"></div>
@@ -273,43 +295,6 @@ function NeuralThemeContent({
                   ))}
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-zinc-800">
-                  <p className="text-xs text-zinc-500 mb-2">BACKGROUND_PROCESSES (htop)</p>
-                  {/* Replaced simple text ticker with htop-style table */}
-                  <div className="font-mono text-[10px] md:text-xs bg-black/80 border border-zinc-800 rounded p-2">
-                    <table className="w-full text-left border-collapse min-w-0">
-                      <thead>
-                        <tr className="bg-zinc-800 text-black">
-                          <th className="px-1 py-0.5 bg-green-500 text-black">PID</th>
-                          <th className="px-1 py-0.5 text-green-500 bg-transparent">USER</th>
-                          <th className="px-1 py-0.5 text-green-500 bg-transparent">CPU%</th>
-                          <th className="px-1 py-0.5 text-green-500 bg-transparent">MEM%</th>
-                          <th className="px-1 py-0.5 text-green-500 bg-transparent">TIME+</th>
-                          <th className="px-1 py-0.5 text-green-500 bg-transparent">COMMAND</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {/* @ts-ignore - we know personalTraits is now an array of objects */}
-                        {resumeData.personalTraits.map((process: any, i: number) => (
-                          <tr key={process.pid} className="border-b border-zinc-900/50 hover:bg-zinc-900/50">
-                            <td className="px-1 py-0.5 text-green-300">{process.pid}</td>
-                            <td className="px-1 py-0.5 text-zinc-400">{process.user}</td>
-                            <td className="px-1 py-0.5 text-zinc-300">{process.cpu}</td>
-                            <td className="px-1 py-0.5 text-zinc-300">{process.mem}</td>
-                            <td className="px-1 py-0.5 text-zinc-500">{process.time}</td>
-                            <td className="px-1 py-0.5 text-white break-all">{process.command}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    <div className="mt-2 flex gap-2 text-[10px] text-zinc-500">
-                      <span>F1Help</span>
-                      <span>F2Setup</span>
-                      <span>F3Search</span>
-                      <span>F10Quit</span>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           )}
