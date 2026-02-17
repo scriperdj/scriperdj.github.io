@@ -94,6 +94,13 @@ export const resumeData = {
   ],
   experienceHighlights: [
     {
+      title: "AI-First Full-Stack Platform Engineering",
+      icon: "🤖",
+      impact: "Production-grade systems with ultra fast timelines",
+      description:
+        "Designed and built production-grade platforms entirely through AI-assisted development — zero hand-written code. Architected event-driven systems with Apache Airflow DAGs, Redpanda (Kafka) streaming, and multi-agent LLM orchestration using LangChain with RAG-augmented reasoning via ChromaDB. Built ML pipelines with XGBoost/LightGBM for predictive analytics and autonomous resolution through specialist AI agents. Developed SaaS platforms using Next.js, TypeScript, Supabase (Auth + Postgres + RLS), Daytona SDK for sandboxed execution, and OpenRouter for LLM routing — featuring WebSocket RPC hot-config, multi-channel integrations, and encrypted credential vaults. All development powered by Claude Code, Cursor, TaskMaster AI, and Ralph Loop.",
+    },
+    {
       title: "Distributed Industrial AI Platform",
       icon: "🏭",
       impact: "Global IoT data processing",
@@ -123,14 +130,15 @@ export const resumeData = {
     },
   ],
   technicalExpertise: {
-    orchestration: ["Apache Airflow", "Apache Kafka", "Celery", "Luigi", "Redis"],
+    aiAndMl: ["LangChain", "ChromaDB", "MLflow", "MLOps", "XGBoost", "LightGBM", "scikit-learn"],
+    aiDevTools: ["Claude Code", "Cursor", "TaskMaster AI", "Ralph Loop", "OpenClaw"],
+    orchestration: ["Apache Airflow", "Apache Kafka", "Redpanda", "Celery", "Luigi", "Redis"],
     bigData: ["Apache Spark (PySpark)", "Apache Iceberg", "Spark Streaming"],
-    databases: ["PostgreSQL", "TimescaleDB", "DuckDB", "ElasticSearch", "MySQL", "Redis"],
-    cloud: ["Kubernetes", "Docker", "AWS", "Google Cloud", "Azure"],
+    data: ["PostgreSQL", "TimescaleDB", "DuckDB", "ElasticSearch", "CubeJS", "GraphQL"],
+    cloud: ["Kubernetes", "Docker", "AWS", "Google Cloud", "Azure", "Daytona"],
     backend: ["Django", "FastAPI", "Node.js", "Ruby on Rails"],
-    data: ["CubeJS", "GraphQL", "MLflow", "MLOps"],
-    languages: ["Python", "Scala", "Java", "Ruby", "PHP"],
-    frontend: ["React", "Redux"],
+    languages: ["Python", "Scala", "Java", "Ruby", "PHP", "TypeScript"],
+    frontend: ["React", "Redux", "Next.js", "Tailwind CSS"],
     monitoring: ["Prometheus", "KEDA", "Grafana"],
   },
   experience: [
